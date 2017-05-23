@@ -1,0 +1,44 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{xspace}
+\usepackage[francais]{babel}
+
+% Title Page
+\title{Rapport technique \\Mini Projet : Le jeu du carré, IA joueuses}
+\author{Ange Jennyfer NGUENO FOKAM - 170840\\Julien PETRIGNET 217307\\Titouan FREVILLE - 217821\\Sara EL AICHI 226328}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+Le projet IA joueuses pour le jeu du carré à pour but de répondre au sujet de 4AIT de l'école Supinfo, promotion 2018. L'objectif du projet est de réalisé aux moins deux intelligences artificielle capable de jouer au jeu du carré. Les intelligences propos\'ees devront \^etre capable de jouer entre elle ou contre un joueur ext\'erieur. \\
+\\
+A partir de cet \'enonc\'e, plusieurs solutions s'offrent \`a nous. Pour pouvoir r\'epondre le mieux aux probl\`emes, il nous faut tout d'abord analyser le jeu s\'electionner afin de d\'eterminer son type (d\'ecision, for\c{c}age, anticipation, calcul, r\'eaction, ...). Nous pourrons alors nous interroger sur les diff\'erentes IA proposable puis sur les langages utilisables afin de s\'electionner le plus intéressant pour nous.
+\\
+Ce rapport \`a pour but de pr\'esenter toute la d\'emarche de r\'eflexion que nous avons eu afin de prendre une d\'ecision nous permettant de r\'esoudre le probl\`eme de la fa\c{c}on la plus intéressante.
+\end{abstract}
+
+\part{Le jeu, pr\'esentation et compr\'ehension}
+
+\chapter{Historique, principe de base, type}
+Le jeu du carr\'e est un jeu d\'ecris en 1889 pour la premi\`ere fois par Edouard Lucas, math\'ematicien. Le principe du jeu est tr\`es simple, et nécessite peu de mat\'eriel. Le but est de cr\'eer des forme carr\'e. Pour cela, chaque joueur va a tour de r\^ole tracer un segment sur un quadrillage permettant de repr\'esenter un c\^ot\'e pour un future carr\'e. Le jouer ayant ferm\'e le plus de carr\'e remporte la partie.
+
+\section{Type de jeu}
+
+Le jeu des petits carr\'es est un jeu de r\'eflexion. Il fonctionne comme le jeu de dame, dans le sens ou, lorsque le jeu est ma\^itriser, l'objectif devient de forcer le jouer adverse a fermer un certain nombre de carr\'e pour pouvoir en r\'ecup\'erer plus par la suite. C'est donc un jeu de for\c{c}age et de d\'ecision. Fonctionnant sur des formes g\'eom\'etrique, il va donc se concentr\'e sur la capacit\'e \`a lire le plan repr\'esenter par la grille et \`a venir correctement enfermer l'adversaire dans une situation de fermeture perdante. Nous allons donc chercher \`a permettre \`a nos IA une bonne compr\'ehension de l'occupation de l'espace, et une bonne lecture du plan grillag\'e.
+
+\section{Compr\'ehension}
+
+D\'etaillons maintenant la strat\'egie principale du jeu.\\
+Le jeu se base donc sur la g\'eom\'etrie et plus particuli\`erement les formes rectangulaires, et les carr\'es. La premi\`ere phase du jeu va avoir pour objectif de cr\'eer des zones de "<non droit"> tel que si un joueur place un trait dans cette zone, il donne une grande quantit\'e de points \`a son adversaire. Ensuite, chaque joueur va devoir essayer d'agrandir sa zone de non droit et en "<poss\'eder"> une depuis la qu'elle il r\'ecup\'erera plus de points que son adversaire. L'objectif est donc de cr\'eer un couloir (appeler plus g\'en\'eralement "<serpent"> en raison de sa forme) longiligne puis de forcer l'adversaire \`a jouer en bordure de ce couloir tel que d\`es qu'il ferme un carr\'e dans cette zone, le joueur r\'ecup\`ere plus de point que lui. \\
+Cette strat\'egie essentiel est toutefois complexe, et n'est pas ce que les joueurs seront capable de produire en premier. Afin de proposer des IAs \'equilibr\'ees,  il nous faudra donc une IA incapable de pr\'evoir/comprendre ce Fonctionnement. \\
+Nous pouvons d\'ej\`a entrevoir deux syst\`eme pour concevoir nos IA: une IA simpliste compl\'etant la grille et fermant les carr\'es d\`es que possible, et une IA plus complexe g\'erant la notion basique de serpent sans anticiper sur les coups \`a venir.
+
+\part{Intelligence Artificielle, let's play}
+
+\chapter{D\'efinition des IA}
+
+
+\end{document}

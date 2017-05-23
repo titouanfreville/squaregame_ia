@@ -20,3 +20,8 @@ setup.data
 setup.log
 
 .vscode
+
+*.aux
+*.log
+*.backup
+*.toc
