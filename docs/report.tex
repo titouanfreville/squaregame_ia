@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{xspace}
 \usepackage[francais]{babel}
+\usepackage[]{algpseudocode}
 
 % Title Page
 \title{Rapport technique \\Mini Projet : Le jeu du carré, IA joueuses}
@@ -72,11 +73,48 @@ Ces trois \'el\'ements sont suffisant pour que cet IA puisse fonctionner.
 
 \subsection{Algorithmes}
 
+Pour la d\'efinition de l'algorithme, nous abstrayon la lecture et les types de donn\'ees par la fonction : lireGrille(grille) dont on suppose le typage connue, et qui nous renvoie les informations voulues. \\
+L'algoritmhe que nous allons utiliser pour la premi\`ere IA est simpliste. Il utilise la fonction de lecture lireGrille pour r\'ecup\'er\'e soit un carr\'e soit une liaison vide. Nous allons d\'efinir de fa\c{c}on abstraite la fonction lireGrille capable de renvoyer ces information puis l'algorithme de l'IA. \\
+\begin{algorithmic}
+\Function{lireGrille}{$grille$}
+	\State $case \gets currentCase$
+	\ForAll{$case$ in $reachableCase$}
+		\If {$case$ is $closable$}
+			\State \Return $case$
+		\Else
+			\If {$grilleEnd$}
+				\State \Return $randomCase$
+			\EndIf
+		\EndIf
+	\EndFor
+\EndFunction
+\\
+\Function{ia0}{}
+	\While {$true$}
+		\State $caseToPlay\gets$lireGrille($grille$)
+		\If {$caseToPlay$ is $closable$}
+			\State closeCase()
+			\State countPoints()
+		\Else
+			\State drawCaseSegment()
+		\EndIf
+		\State waitOverPlayer()
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+Les fonctions abstraite drawCase, closeCase, countPoints et waitOverPlayer sont considir\'e comme de compl\'exit\'e neutre et instantan\'ee par rapport aux autres fonctions. Leur utilisation est \'evidente ainsi que ce qu'elle font.
+
 \subsection{Complexit\'e}
 
 \subsubsection{Spaciale}
 
+Assez peu de compl\'exit\'e spaciale pour cette algorithme. Une variable est utilis\'e pour la grille, une pour stocker la case en cours d'analyse, une pour le score et une pour attendre l'autre jouer. Soit 4 variable simultan\'ees. La plus part de ces variables contiennes une valeur courte pouvant \^etre stocker faiclement et occupant tr\`es peu d'espace. La grille sera un peu plus longue, et son poid sera d\'ependant de la taille de celle-ci ainsi que du choix de repr\'esentation. On peut donc dire que la complexit\'e spaciale $CS$ est \'equivalente \`a la compl\'exit\'e spaciale de la grille $CSG$.
+
 \subsubsection{Temporelle}
+
+La compl\'exit\'ee temporelle de cette algorithme est assez facile a calculer: \\
+$CT_{ia0}$($n$) = O($CT_{lireGrille}$($n$)$*$4$n$) = O($n*$4$n$)=O(4$n^2$) = O($n^2$), o\`u $n$ est le nombre de case de la grille. \\
+Cette algorithme est donc tr\`es peu optimis\'e, est long a s'\'exut\'e. Son temps d'\'ex\'ecution augmlente en fonction du carr\'e du nombre de case. Il devient donc rapidement au dela d'un temps d'attente supportable.
 
 % ---- IA 1 ------------------------------------------------------------------------
 \section{IA - Premi\`eres armes. Niveau 1}
@@ -97,7 +135,10 @@ Notre seconde IA a donc besoin de nouvelle connaissance, bien qu'elle reste tr\`
 \end{itemize}
 
 Il lui faut donc deux nouvelles connaissance pour fonctionner correctement.
+
 \subsection{Algorithmes}
+
+
 
 \subsection{Complexit\'e}
 
