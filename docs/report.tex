@@ -134,10 +134,42 @@ Maintenant que nos futures IA sont d\'efinis, voyons comment mod\'eliser les don
 \chapter{Environement}
 
 L'environement de jeu consiste en un plateau pr\'esentant une grille. C'est sur cette grille que nos viendrons dessiner nos segment. Le plateau globale est de forme rectangulaire, id\'ealement carr\'e. La grille est d\'ecouper en carr\'e, d\'ecomposer en ligne et somment. Plusieur solutions s'offrent alors \`a nous pour repr\'esenter l'environement. Nous pouvons d\'efinir un graphe contenant chaque sommet et les liasions entre eux, en utilisant une variable sur chaque noeud pour pr\'esenter la pr\'esence ou non d'une liaison, ou nous pouvons repr\'esenter chaque sommet de la grille dans une matrice, et utiliser une liste pour stocker les liaisons connue. \\
+
 \section{Tableau}
+
 La repr\'esentation via tableau est la repr\'esentation la plus informatique du probl\`eme, et la plus simple vis \`a vis de la repr\'esentation graphique du probl\`eme. Chaque point de la matrice repr\'esentant un sommet de la grille, il est facile de s\'electionner des sommets puis de les liers dans une liste via un couple.\\
 L'avantage de cette m\'ethode est donc la facilit\'e de gestion de la partie graphique du jeu. Cependant, il est alors compliquer de savoir qu'elle c\^ot\'e sont d\'ej\`a tracer. Il est donc plus long de r\'ecup\'erer les informations quand aux corridors et serpents pr\'esent de le jeu, ainsi que de s'assurer que le coup est autoris\'e.
 
 \section{Graphe}
+
+La repr\'esentation via graphe va permettre de compenser la faiblesse du tableau vis \`a vis des c\^ot\'e. Cependant, elle sera moins efficace d'un point de vue graphique. Le graphe a repr\'esenter doit stocker les informations sur la case. Vis a vis de la grille, une cas est un future carr\'e, donc un point. Un point est ferm\'e d\`es que ces 4 c\^ot\'es sont ferm\'e. Un sommet de notre graphe serait alors un triplet contenant le nom de la case (ex: C5), une liste bool\'een correspondant au c\^ot\'e de la case (vrai si ferm\'e, faux sinon par exemple), et une liste contenant au plus quatre \'el\'ement repr\'esentant les noms des cases adjacentes. \\
+Nous avons alors une structures qui permet de facilement calculer les points de la carte, de visualiser les structures de corridors et serpents et de g\'erer les liaisons entre les cases. Bien que moi efficace sur le plan graphique, elle est beaucoup plus puissantes pour les algorithmes de r\'esolution et plus rapides. 
+
+\section{Solution choisie}
+
+Nous avons donc choisi la structure de graphe pour mod\'eliser les donn\'ees. L'objectif de notre travail \'etant principalement de cr\'eer des IAs capable de jouer au jeu, et non de permettre a deux joueurs de s'affronter. Nous avons naturellement choisi la solution la plus interressante du point de vue algorithmique. 
+
+\chapter{Information de jeu}
+
+Une fois la repr\'esentation de l'environement choisi (en l'occurence, un graphe), il nous faut mod\'eliser les coups et options de jeu. Encore une fois, il y a plusieur solutions. Cepenant, ici, les diff\'erentes solutions vont plus s'appliquer au choix d'impl\'ementation d'IA qu'a un besoin. En effet, pour l'IA de niveau 0, il n'y a pas besoin de structure particuli\`ere pour symboliser les coups. Une simple lecture du graphe suffit. Les structures sont a d\'efinir pour l'IA de niveau 1 et 2. 
+
+\section{IA 1 - Structure}
+
+La premi\`ere IA a besoin d'une connaissance sp\'ecifique a chaque configuration du graphe : la quantit\'e de points gagnable pour chaque serpent. Cette valeur peut s'obtenir en comptant le nombre de carr\'e pr\'esent dans le serpent. Dans un soucis de vitesse, une liste contenant les diff\'erents serpents ainsi que le diff\'erentiel de points joueur/IA peut \^etre int\'eressante a d\'efinir. Au quel cas, apr\`es chaque coups, cette liste est mise \`a jour. Dans cette liste, un serpent est un triplet contenant le nom de la case de d\'epart, et celui de la case de fin, puis le diff\'erentiel de score (ex: le triplet (A0, A3, 4) repr\'esente la ligne allant de la premi\`ere case \`a la troisi\`eme dans la rang\'e A et rapporte 4 points a l'IA quand elle le fermera).
+
+\section{IA 2 - Stucture}
+
+La structure a utilis\'e pour l'IA 2 est assez \'evidente, elle fait partie de sa d\'efinition. Il faut d\'efinir un arbre qui va stocker chaque confiuration possible du graphe en fonction du coup pr\'ec\'edent. Nous allon alors avoir un arbre n-aire ayant pour racine la configuration initiale et ou chaque fils est la configuration suivante en fonction du coup jouer. 
+
+
+\part{Choix du Langage}
+
+Maintenant que nous avons d\'etermin\'e nos structure de donn\'e et nos algorithmes, nous pouvons justifier un choix de langage de programmation. \\
+Nos algorithmes et structures de donn\'es sont r\'ecursifs, par cons\'equent, s'orienter sur un langage imp\'eratif tel que C ou Java est peu adapt\'e (m\^eme si les derni\`eres version g\`ere correctement la r\'ecursivit\'e, ce ne sont pas des langages con\c{c}ue dans ce but). De plus, nous avons des algorithme complexe \`a mettre en place. Aussi, un langage de programmation fonctionnelle semble plus appropir\'e. \\
+Parmi les diff\'erents langages de programmation fonctionnelle que nous connaission (LISP, \'elixir et OCaml), nous avons pr\'ef\'er\'e choisir OCaml car un des membres du groupes \'etait plus \`a l'aise avec OCaml que les autres, l'ayant pratiqu\'e pendant 3 ans. \\
+Nous avons donc choisi le langage sur le quel nous \'etions le plus exp\'eriment\'e, et qui nous semble le plus adapt\'e vis \`a vis de nos donn\'ees.
+
+\part{Simulation de fonctionnement}
+
 
 \end{document}
