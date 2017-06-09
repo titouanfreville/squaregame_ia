@@ -79,7 +79,7 @@ Ces trois \'el\'ements sont suffisant pour que cet IA puisse fonctionner.
 \subsubsection{Temporelle}
 
 % ---- IA 1 ------------------------------------------------------------------------
-\section{IA - Premi \`ere armes. Niveau 1}
+\section{IA - Premi\`eres armes. Niveau 1}
 
 D\'eveloppons maintenant une IA utilisant les structures de serpents introduite en premi\`ere partie. 
 
@@ -126,5 +126,18 @@ Notre troisi\`eme IA a donc besoin d'une seule chose en plus de l'IA 0: la conna
 
 \subsubsection{Temporelle}
 
+% ------------------------------------------------------------- MODELISATION -------------------------------------------------------------  %
+\part{Mod\'elisation}
+
+Maintenant que nos futures IA sont d\'efinis, voyons comment mod\'eliser les donn\'ees du probl\`emes.
+
+\chapter{Environement}
+
+L'environement de jeu consiste en un plateau pr\'esentant une grille. C'est sur cette grille que nos viendrons dessiner nos segment. Le plateau globale est de forme rectangulaire, id\'ealement carr\'e. La grille est d\'ecouper en carr\'e, d\'ecomposer en ligne et somment. Plusieur solutions s'offrent alors \`a nous pour repr\'esenter l'environement. Nous pouvons d\'efinir un graphe contenant chaque sommet et les liasions entre eux, en utilisant une variable sur chaque noeud pour pr\'esenter la pr\'esence ou non d'une liaison, ou nous pouvons repr\'esenter chaque sommet de la grille dans une matrice, et utiliser une liste pour stocker les liaisons connue. \\
+\section{Tableau}
+La repr\'esentation via tableau est la repr\'esentation la plus informatique du probl\`eme, et la plus simple vis \`a vis de la repr\'esentation graphique du probl\`eme. Chaque point de la matrice repr\'esentant un sommet de la grille, il est facile de s\'electionner des sommets puis de les liers dans une liste via un couple.\\
+L'avantage de cette m\'ethode est donc la facilit\'e de gestion de la partie graphique du jeu. Cependant, il est alors compliquer de savoir qu'elle c\^ot\'e sont d\'ej\`a tracer. Il est donc plus long de r\'ecup\'erer les informations quand aux corridors et serpents pr\'esent de le jeu, ainsi que de s'assurer que le coup est autoris\'e.
+
+\section{Graphe}
 
 \end{document}
