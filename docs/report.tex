@@ -8,7 +8,6 @@
 \title{Rapport technique \\Mini Projet : Le jeu du carré, IA joueuses}
 \author{Ange Jennyfer NGUENO FOKAM - 170840\\Julien PETRIGNET 217307\\Titouan FREVILLE - 217821\\Sara EL AICHI 226328}
 
-
 % Document start
 \begin{document}
 % Title :O
@@ -138,6 +137,34 @@ Il lui faut donc deux nouvelles connaissance pour fonctionner correctement.
 
 \subsection{Algorithmes}
 
+\begin{algorithmic}
+\Function{addMove}{$case$, $side$, $snakeList$}
+	\State Match $snakeList$ with
+	\State $Empty$ $\rightarrow$ [([($case$, $side$)],1)]
+	\State ($snake$, $val$) :: $q$ $\rightarrow$
+		\If {inSnake $case$ $snake$}
+			\If {member $case$ $snake$}
+				\State (($case$, $side$)::$snake$, $val$)::$q$
+			\Else
+				\State (($case$, $side$)::$snake$, $val$+1)::$q$
+			\EndIf
+		\Else
+			\State $t$::addMove $case$ $side$ $q$
+		\EndIf
+\EndFunction
+\\
+\Function{move}{$grille$,$snakeList$}
+	\State Match $snakeList$ with
+	\State $Empty$ $\rightarrow$ let $case\gets$randomCase() in addMove $case$ randomInt(0,3) $snakeList$
+	\State ($snake$, $val$) :: $q$ $\rightarrow$
+		\If 
+\EndFunction
+\\
+\Function{ia1}{$grille$}
+	\State
+\EndFunction
+\end{algorithmic}
+Les fonctions abstraite drawCase, closeCase, countPoints et waitOverPlayer sont considir\'e comme de compl\'exit\'e neutre et instantan\'ee par rapport aux autres fonctions. Leur utilisation est \'evidente ainsi que ce qu'elle font.
 
 
 \subsection{Complexit\'e}
