@@ -226,11 +226,65 @@ Notre troisi\`eme IA a donc besoin d'une seule chose en plus de l'IA 0: la conna
 
 \subsection{Algorithmes}
 
+\begin{algorithmic}
+\Function{initTreeMove}{$grille$,$moveTree$}
+	\State Match $grille$ with
+	\State $Empty$ $\rightarrow$ $EmptyTree$
+	\State $case$::$resteGrille$ $\rightarrow$
+		\If {isClosed($case$)}
+			initTreeMove($q$, $moveTree$)
+		\Else
+			\For $i$ from $0$ to $3$
+				\State let $newGrid$ = play($case$,$i$,$grille$) in
+				\State let $moveTreeFrom$ = initTreeMove($newGrid$, $EmptyTree$) in
+				\State let $newMoveTree$ = addTree($moveTreeFrom$, $moveTree$) in
+				\State initTreeMove($resteGrille$, $newMoveTree$)
+			\EndFor
+		\EndIf
+\EndFunction
+\\
+\Function{selectPlay}{$treeMove$}
+	\State Match $treeMove$ with
+	\State $EmptyTree$ $\rightarrow$ $EndGame$
+	\State $(Racine, lFils)$ $\rightarrow$ playWinner($lFils$)
+\EndFunction
+\\
+\Function{playWinner}{$listTreeMove$}
+	\State Match $listTreeMove$ with
+	\State $Empty$ $\rightarrow$ ($EmptyTree$,0)
+	\State $t$::$Empty$ $\rightarrow$ ($t$, score($t$)
+	\State $t$::$q$ $\rightarrow$ let ($currentWinner$, $currentScore$) = playWinner($q$) and $thisScore$ = score($t$) in
+		\If {$thisScore$ > $currentScore$}
+			\State ($t$, $thisScore$)
+		\Else
+			\State ($currentWinner$, $currentScore$)
+		\EndIf
+\EndFunction
+\\
+\Function{ia2}{$moveTree$}
+	\State let $newTree$ = playWinner($moveTree$) in
+	\State let $playerTree$ = waitOverPlayer($newTree$) in
+	\State ia2($playerTree$)
+\EndFunction
+\end{algorithmic}
+Les fonctions $score$ et $play$ sont abstraite de compl\'exit\'e simple (O(1)). La fonction $addTree$ n'est pas pr\'esenter ici car d\'ependante de la mod\'elisation des donn\'ees, elle sera cependant assez classique (lire l'arbre jusqu'a arriver \`a la place de l'\'el\'ement \`a ajouter et \'equilibr\'e si n\'ecessaire).
+
 \subsection{Complexit\'e}
 
 \subsubsection{Spaciale}
 
+La complexit\'e spaciale de cette fonction est essentiellement li\'ee \`a la taille de l'arbre des coups, et \`a sa cr\'eation. Nous pouvons limiter l'impact en m\'emoire en utilisant de la r\'ecursivit\'e terminale au lieu de la r\'ecursivit\'e standart, permettant ainsi de ne plus puiser dans les ressources de la RAM. Cependant, le programme demandera tout de m\^eme de stocker la grille compl\`ete et l'arbre des possibles complet. On peut dire que la complexit\'e spaciale globale est li\'e \`a la compl\'exit\'e spaciale de la grille ainsi: $CSGlobale=CSGrille^(n!)$ ou n est le nombre de case. 
+
 \subsubsection{Temporelle}
+
+Dans cette configuration, l'essentielle de la compl\'exit\'e temporelle est li\'e \`a la g\'en\'eration de l'arbre des possibles. En effet, les fonctions $selectPlay$, $playWinner$ et $ia2$ auront au pire une compl\'exit\'e de $n$. 
+
+La compl\'exit\'e de la fonction de g\'en\'eration des coups est li\'e \`a la compl\'exit\'e d'ajout d'un \'el\'ement dans l'arbre. N'ayant pas pr\'esenter l'algorithme d'ajout (li\'e \`a la mod\'elisation des donn\'ees), nous notterons $CT_{ajoutArbre}$ sa valeur exacte, on peut cependant l'approxim\'e \`a $n*log(n)$ \'etant donn\'e la structure d'arbre et en anticiapant le fait que l'arbre ne sera pas \'equilibr\'e via une fonction sp\'ecifique (\'etant donn\'e son objectif), mais qu'il devrait \^etre naturellement \'equilibr\'e par le concept de jeu.
+
+Ainsi, la compl\'exit\'e de la fonction d'ajout sera : 
+
+$CT_{initTreeMove}$ = O($(4*CT_{ajoutArbre}^n)$) = O($CT_{ajoutArbre}^n$) ~ O($(n*log(n))^n$) ~ O($n^n$)
+
 
 % ------------------------------------------------------------- MODELISATION -------------------------------------------------------------  %
 \part{Mod\'elisation}
