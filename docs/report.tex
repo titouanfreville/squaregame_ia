@@ -156,23 +156,61 @@ Il lui faut donc deux nouvelles connaissance pour fonctionner correctement.
 \Function{move}{$grille$,$snakeList$}
 	\State Match $snakeList$ with
 	\State $Empty$ $\rightarrow$ let $case\gets$randomCase() in addMove $case$ randomInt(0,3) $snakeList$
-	\State ($snake$, $val$) :: $q$ $\rightarrow$
-		\If 
+	\State ($snake$, $val$) :: [] $\rightarrow$
+		\If {isClosableSnake($snake$)}
+			\State closeSnake($snake$)
+		\EndIf
+	\State ($snake$, $val$) :: ($snake2$, $val2$)::$q$ $\rightarrow$
+		\If {isClosableSnake($snake$)}
+			\State closeSnake($snake$)
+		\Else
+			\If {closableWith($snake$, $snake2$)}
+				\State force($snake2$)
+			\Else
+				\State move($grille$,$q$)
+			\EndIf
+		\EndIf
 \EndFunction
 \\
-\Function{ia1}{$grille$}
-	\State
+\Function{force}{$snake$}
+	\If isClosableSnake($snake$)
+		\State randomCase($snake$)
+	\EndIf
+	\State let (c1, c2) = snakeEnd($snake$) in
+	\If {closedSides(c1) < 3}
+		\State addSnakeSide(c1)
+	\Else
+		\If {closedSides(c2) < 3}
+			\State addSnakeSide(c2)
+			\Else randomCase($snake$)
+		\EndIf
+	\EndIf
+\EndFunction
+\\
+\Function{ia1}{$grille$,$snakeList$}
+	\State move($grille$,$snakeList$)
+	\State waitOverPlayer()
+	\State ia1($grille$, $snakeList$)
 \EndFunction
 \end{algorithmic}
-Les fonctions abstraite drawCase, closeCase, countPoints et waitOverPlayer sont considir\'e comme de compl\'exit\'e neutre et instantan\'ee par rapport aux autres fonctions. Leur utilisation est \'evidente ainsi que ce qu'elle font.
-
+Les fonctions non d\'efinis sont consid\'er\'e comme abstraite et connue (car d\'ependante du type de donn\'ees) et soit en temps r\'eel soit sur une compl\'exit\'e maximale de $n$. 
 
 \subsection{Complexit\'e}
 
 \subsubsection{Spaciale}
 
+Cette s\'erie d'algorithme utilise plus de place que le pr\'ecendent. Une variable suppl\'ementaire doit \^etre utiliser pour stocker la liste des serpents. La compl\'exit\'e de la liste de serpent d\'ependant de celle de la grille, et on peut dire que dans le pire des cas, elle sera de : $CSG^CSG$. En l'ajoutant \`a la compl\'exit\'e pr\'ec\'edente, on a que $CSA1=O(CSG+CSG^CSG)=CSG^CSG$
+
 \subsubsection{Temporelle}
 
+Les compl\'exit\'es sont donn\'ees pour les pires cas. Soit $n$ le nombre de case de la grille.
+
+$CT_{addMove}$ = O$(n^n)$ \\
+$CT_{force}$ = O$(CT_{isClosableSnake}+CT_{snakeEnd}) = $O$(n+n) = $O$(n)$ \\
+$CT_{move}$ = O$(CT_{isClosableSnake}+CT_{closeSnake}+CT_{closableWith}+CT_{force})^n$ = O$(n+n+n+n)^n$ = O$(n^n)$
+
+
+La compl\'exit\'e temporelle au pire est crois donc exponentiellement en fonction du nombre d'\'el\'ement dans la grille. Cependant, le cas ou chaque \'el\'ement de la grille donne un serpent contenant tous les \'el\'ements de la grille ne devrait pas arriv\'e dans un contexte d'utilisation normale. On peut approxim\'e la compl\'exit\'e moyenne a $n*log(n)$ en prenant en compte le fait que la liste des serpents sera tri\'e \`a chaque modification afin de conserver le serpent donnant le plus de point en prem\`ere position.
 % ---- IA 2 ------------------------------------------------------------------------
 \section{IA - La connaissance. Niveau 2}
 
