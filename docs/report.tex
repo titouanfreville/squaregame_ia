@@ -234,7 +234,7 @@ Notre troisi\`eme IA a donc besoin d'une seule chose en plus de l'IA 0: la conna
 		\If {isClosed($case$)}
 			initTreeMove($q$, $moveTree$)
 		\Else
-			\For $i$ from $0$ to $3$
+			\For {$i$ from $0$ to $3$}
 				\State let $newGrid$ = play($case$,$i$,$grille$) in
 				\State let $moveTreeFrom$ = initTreeMove($newGrid$, $EmptyTree$) in
 				\State let $newMoveTree$ = addTree($moveTreeFrom$, $moveTree$) in
