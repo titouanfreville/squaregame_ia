@@ -177,7 +177,7 @@ let drawInt i = draw_string (soi i);;
 
 let rec drawBoolList lbool =
 	match lbool with
-	| t::q -> draw_string (string_of_bool t)
+	| t::q -> draw_string (string_of_bool t); draw_string ", "; drawBoolList q;
 	| _ -> ();;
 
 let rec drawNodeList lnode =
@@ -188,8 +188,8 @@ let rec drawNodeList lnode =
 let printNode node =
 	let ((i,j), lbool, lnode) = node in
 	draw_string "( ";
-	drawInt i; draw_string ", "; draw_char j; draw_string " ), ";
-	drawBoolList lbool; draw_string ", "; drawNodeList lnode;;
+	drawInt i; draw_string ", "; draw_char j; draw_string " ), (";
+	drawBoolList lbool; draw_string " ), "; drawNodeList lnode;;
 
 openGraph "1900" "1000";;
 
