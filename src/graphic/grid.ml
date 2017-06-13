@@ -1,4 +1,4 @@
-type gridNode = (int * string) * bool list * (int * string) list;;
+type gridNode = (int * char) * bool list * (int * char) list;;
 type 'a grid = EmptyGrid | GridNode of 'a grid * 'a * 'a grid;;
 
 let newEmptyGrid () = EmptyGrid;;
@@ -96,34 +96,33 @@ let rec addTreeInTree tree1 tree2 =
             addTreeInTree fd newTree
         end;;
 
+(*
+   @initGridRec
+   Create a representation for the game grid.
+   @param i int evolutive paramater to count the number of column to initialise
+   @param j int evolutive paramater to count the number of row to initialise
+   @param mi int max value of i
+   @param mj int max value of j
 
-let rec initNodeList i j mj =
-	match (i, j) with
-	| (0, 0) -> [(0, 'a')]
-	| (0, n) -> (0, Char.chr (n+97))::initNodeList 0 (n-1) mj
-	| (n, 0) -> (n, 'a')::initNodeList (n-1) mj mj
-	| (i,j) -> (i, Char.chr (j+97))::initNodeList i (j-1) mj;;
-
-
-let rec initGrid i j mi mj =
+*)
+let rec initGridRec i j mi mj =
 	match (i,j) with
 	| (0, 0) -> GridNode(EmptyGrid, ((0, 'a'), false :: false ::[], (1, 'a')::(0, 'b')::[]), EmptyGrid)
 	| (0, n) -> if n == mj
-		then add ((0, Char.chr (n+97)), false :: false :: [], (0,Char.chr (n+96))::(1, Char.chr (n+97))::[]) (initGrid 0 (n-1) mi mj)
-		else add ((0, Char.chr (n+97)), false :: false :: false :: [], (0, Char.chr (n+96))::(0, Char.chr (n+98))::(1, Char.chr (n+97))::[]) (initGrid 0 (n-1) mi mj)
+		then add ((0, Char.chr (n+97)), false :: false :: [], (0,Char.chr (n+96))::(1, Char.chr (n+97))::[]) (initGridRec 0 (n-1) mi mj)
+		else add ((0, Char.chr (n+97)), false :: false :: false :: [], (0, Char.chr (n+96))::(0, Char.chr (n+98))::(1, Char.chr (n+97))::[]) (initGridRec 0 (n-1) mi mj)
 	| (n, 0) -> if n = mi
-		then add ((n, 'a'), false :: false :: [], (n, 'b') :: (n-1, 'a') :: []) (initGrid (n-1) mj mi mj)
-		else add ((n, 'a'), false :: false :: false :: [], (n, 'b') :: (n-1, 'a') :: (n+1, 'a') :: []) (initGrid (n-1) mj mi mj)
-	| (i,j) -> add ((i, Char.chr (j+97)), false :: false :: false :: [], (i, Char.chr (j+96)) :: (i, Char.chr (j+98)) :: (i+1, Char.chr (j+97)) :: (i-1, Char.chr (j+97)) :: []) (initGrid i (j-1) mi mj);;
+		then add ((n, 'a'), false :: false :: [], (n, 'b') :: (n-1, 'a') :: []) (initGridRec (n-1) mj mi mj)
+		else add ((n, 'a'), false :: false :: false :: [], (n, 'b') :: (n-1, 'a') :: (n+1, 'a') :: []) (initGridRec (n-1) mj mi mj)
+	| (i,j) -> add ((i, Char.chr (j+97)), false :: false :: false :: [], (i, Char.chr (j+96)) :: (i, Char.chr (j+98)) :: (i+1, Char.chr (j+97)) :: (i-1, Char.chr (j+97)) :: []) (initGridRec i (j-1) mi mj);;
 
-let rec printNodeList nodeList =
-	match nodeList with
-	| [] -> ()
-	| (i,c)::q -> print_char '('; print_int i; print_char c; print_char ')'; print_string " "; printNodeList q;;
-
-let ltest = initNodeList 3 3 3;;
-
-printNodeList ltest;;
+(*
+ 	@initGrid
+ 	Cleaner way to init the grid.
+ 	@param i int number of row to init
+ 	@param j int number of column to init
+ *)
+let rec initGrid i j = initGridRec j i j i;;
 
 (* Loading graphics library to used in REPL *)
 #load "graphics.cma";;
@@ -192,10 +191,8 @@ let printNode node =
 	drawInt i; draw_string ", "; draw_char j; draw_string " ), ";
 	drawBoolList lbool; draw_string ", "; drawNodeList lnode;;
 
-
-
 openGraph "1900" "1000";;
 
-let grid = initGrid 4 4 4 4;;
+let grid = initGrid 4 4;;
 
 magicDrawing grid printNode;;
