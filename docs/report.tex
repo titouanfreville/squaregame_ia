@@ -1,5 +1,6 @@
 \documentclass[a4paper,12pt]{report}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{xspace}
 \usepackage[francais]{babel}
 \usepackage[]{algpseudocode}
@@ -38,7 +39,7 @@ Le jeu des petits carr\'es est un jeu de r\'eflexion. Il fonctionne comme le jeu
 \section{Compr\'ehension}
 
 D\'etaillons maintenant la strat\'egie principale du jeu.\\
-Le jeu se base donc sur la g\'eom\'etrie et plus particuli\`erement les formes rectangulaires, et les carr\'es. La premi\`ere phase du jeu va avoir pour objectif de cr\'eer des zones de "<non droit"> tel que si un joueur place un trait dans cette zone, il donne une grande quantit\'e de points \`a son adversaire. Ensuite, chaque joueur va devoir essayer d'agrandir sa zone de non droit et en "<poss\'eder"> une depuis la qu'elle il r\'ecup\'erera plus de points que son adversaire. L'objectif est donc de cr\'eer un couloir (appeler plus g\'en\'eralement "<serpent"> en raison de sa forme) longiligne puis de forcer l'adversaire \`a jouer en bordure de ce couloir tel que d\`es qu'il ferme un carr\'e dans cette zone, le joueur r\'ecup\`ere plus de point que lui. \\
+Le jeu se base donc sur la g\'eom\'etrie et plus particuli\`erement les formes rectangulaires, et les carr\'es. La premi\`ere phase du jeu va avoir pour objectif de cr\'eer des zones de \og{}non droit\fg{} tel que si un joueur place un trait dans cette zone, il donne une grande quantit\'e de points \`a son adversaire. Ensuite, chaque joueur va devoir essayer d'agrandir sa zone de non droit et en \og{}poss\'eder\fg{} une depuis la qu'elle il r\'ecup\'erera plus de points que son adversaire. L'objectif est donc de cr\'eer un couloir (appeler plus g\'en\'eralement \og{}serpent\fg{} en raison de sa forme) longiligne puis de forcer l'adversaire \`a jouer en bordure de ce couloir tel que d\`es qu'il ferme un carr\'e dans cette zone, le joueur r\'ecup\`ere plus de point que lui. \\
 Cette strat\'egie essentiel est toutefois complexe, et n'est pas ce que les joueurs seront capable de produire en premier. Afin de proposer des IAs \'equilibr\'ees,  il nous faudra donc une IA incapable de pr\'evoir/comprendre ce Fonctionnement. \\
 Nous pouvons d\'ej\`a entrevoir deux syst\`eme pour concevoir nos IA: une IA simpliste compl\'etant la grille et fermant les carr\'es d\`es que possible, et une IA plus complexe g\'erant la notion basique de serpent sans anticiper sur les coups \`a venir.
 % -----------------------------------------------------------------------------------------------------------------------------------------------------  %
@@ -108,13 +109,15 @@ Les fonctions abstraite drawCase, closeCase, countPoints et waitOverPlayer sont 
 
 \subsubsection{Spaciale}
 
-Assez peu de compl\'exit\'e spaciale pour cette algorithme. Une variable est utilis\'e pour la grille, une pour stocker la case en cours d'analyse, une pour le score et une pour attendre l'autre jouer. Soit 4 variable simultan\'ees. La plus part de ces variables contiennes une valeur courte pouvant \^etre stocker faiclement et occupant tr\`es peu d'espace. La grille sera un peu plus longue, et son poid sera d\'ependant de la taille de celle-ci ainsi que du choix de repr\'esentation. On peut donc dire que la complexit\'e spaciale $CS$ est \'equivalente \`a la compl\'exit\'e spaciale de la grille $CSG$.
+Assez peu de compl\'exit\'e spaciale pour cette algorithme. Une variable est utilis\'e pour la grille, une pour stocker la case en cours d'analyse, une pour le score et une pour attendre l'autre jouer. Soit 4 variable simultan\'ees. La plus part de ces variables contiennes une valeur courte pouvant \^etre stocker faiclement et occupant tr\`es peu d'espace. La grille sera un peu plus longue, et son poid sera d\'ependant de la taille de celle-ci ainsi que du choix de repr\'esentation. On peut donc dire que la complexit\'e spaciale $CS$ est \'equivalente \`a la compl\'exit\'e spaciale de la grille $CSG$. L'occupation de la m\'emoire est donc tr\`es raisonable et, elle augmentera de fa\c{c}on lin\'eaire en fonction du nombre d'\'el\'ement de la grille. 
 
 \subsubsection{Temporelle}
 
 La compl\'exit\'ee temporelle de cette algorithme est assez facile a calculer: \\
 $CT_{ia0}$($n$) = O($CT_{lireGrille}$($n$)$*$4$n$) = O($n*$4$n$)=O(4$n^2$) = O($n^2$), o\`u $n$ est le nombre de case de la grille. \\
-Cette algorithme est donc tr\`es peu optimis\'e, est long a s'\'exut\'e. Son temps d'\'ex\'ecution augmlente en fonction du carr\'e du nombre de case. Il devient donc rapidement au dela d'un temps d'attente supportable.
+Cette algorithme est donc tr\`es peu optimis\'e, est long a s'\'exut\'e. Son temps d'\'ex\'ecution augmlente en fonction du carr\'e du nombre de case. Il devient donc rapidement au dela d'un temps d'attente supportable. Cependant, ce temps d'\'ex\'ecution est globale sur toute l'\'exution de l'IA, c'est a dire, globalement, si nous faisons s'affronter les deux IAs, cette augmentation de temps est valalble. Dans une utilisation en joueur contre IA, nous pouvons r\'eduire la compl\'exit\'e de l'\'ex\'ecution a la complexit\'e de jouer un tour, le joueur n'ayant qu'a attentendre le coup suivant de l'IA a chaque \'etape. Nous avons alors une compl\'exit\'e lin\'eraire en fonction du nombre d'\'el\'ement de la grille, l'IA ne lisant qu'une seule fois la grille compl\`ete \`a chaque tour de jeu.
+
+Cette IA est donc relativement rapide en terme d'attente pour le joueur entre chaque tour. Par contre, elle ne devrait pr\'esenter aucune difficult\'e apr\`es quelque partie. Il est \'egalement \`a not\'e que le temps sera un facteur beaucoup plus limitant que l'espace pour cette IA. 
 
 % ---- IA 1 ------------------------------------------------------------------------
 \section{IA - Premi\`eres armes. Niveau 1}
@@ -174,7 +177,7 @@ Il lui faut donc deux nouvelles connaissance pour fonctionner correctement.
 \EndFunction
 \\
 \Function{force}{$snake$}
-	\If isClosableSnake($snake$)
+	\If {isClosableSnake($snake$)}
 		\State randomCase($snake$)
 	\EndIf
 	\State let (c1, c2) = snakeEnd($snake$) in
@@ -200,18 +203,21 @@ Les fonctions non d\'efinis sont consid\'er\'e comme abstraite et connue (car d\
 
 \subsubsection{Spaciale}
 
-Cette s\'erie d'algorithme utilise plus de place que le pr\'ecendent. Une variable suppl\'ementaire doit \^etre utiliser pour stocker la liste des serpents. La compl\'exit\'e de la liste de serpent d\'ependant de celle de la grille, et on peut dire que dans le pire des cas, elle sera de : $CSG^CSG$. En l'ajoutant \`a la compl\'exit\'e pr\'ec\'edente, on a que $CSA1=O(CSG+CSG^CSG)=CSG^CSG$
+Cette s\'erie d'algorithme utilise plus de place que le pr\'ecendent. Une variable suppl\'ementaire doit \^etre utiliser pour stocker la liste des serpents. La compl\'exit\'e de la liste de serpent d\'ependant de celle de la grille, et on peut dire que dans le pire des cas, elle sera de : $CSG*CSG$. En l'ajoutant \`a la compl\'exit\'e pr\'ec\'edente, on a que $CSA1=O(CSG+CSG^2)=CSG^2$. Aussi, dans le pire des cas, l'occupation de l'espace augmente exponentiellement vis \`a vis de la taille de la grille. Cependant, le cas ou chaque \'el\'ement de la grille se retrouve dans chaque serpent possible est quasiment impossibe, sauf mal utilisation des fonctions de cr\'eations des serpents. On peut m\^eme dire que dans un cas id\'eale, ou il n'existe qu'un serpent, la compl\'exit\'e spaciale sera lin\'eaire en fonction du nombre d'\'el\'ement de la grille. Par cons\'equent, en moyenne, la compl\'exit\'e spaciale de la fonciton sera en moyenne logarithmique, aussi, on peut supposer que l'espace pris par la fonction augmentera \'enormement en fonction du nombre d'\'el\'ement dans la grille pour des petites tailles puis aura tendance a se stabilis\'e pour des grilles de tr\`es grande taille. 
 
 \subsubsection{Temporelle}
 
 Les compl\'exit\'es sont donn\'ees pour les pires cas. Soit $n$ le nombre de case de la grille.
 
-$CT_{addMove}$ = O$(n^n)$ \\
+$CT_{addMove}$ = O$(n*n)$ = O$(n^2)$ \\
 $CT_{force}$ = O$(CT_{isClosableSnake}+CT_{snakeEnd}) = $O$(n+n) = $O$(n)$ \\
-$CT_{move}$ = O$(CT_{isClosableSnake}+CT_{closeSnake}+CT_{closableWith}+CT_{force})^n$ = O$(n+n+n+n)^n$ = O$(n^n)$
+$CT_{move}$ = O$(CT_{isClosableSnake}+CT_{closeSnake}+CT_{closableWith}+CT_{force})*n$ = O$(n+n+n+n)*n$ = O$(n^2)$
 
 
-La compl\'exit\'e temporelle au pire est crois donc exponentiellement en fonction du nombre d'\'el\'ement dans la grille. Cependant, le cas ou chaque \'el\'ement de la grille donne un serpent contenant tous les \'el\'ements de la grille ne devrait pas arriv\'e dans un contexte d'utilisation normale. On peut approxim\'e la compl\'exit\'e moyenne a $n*log(n)$ en prenant en compte le fait que la liste des serpents sera tri\'e \`a chaque modification afin de conserver le serpent donnant le plus de point en prem\`ere position.
+La compl\'exit\'e temporelle au pire est crois donc exponentiellement en fonction du nombre d'\'el\'ement dans la grille. Cependant, le cas ou chaque \'el\'ement de la grille donne un serpent contenant tous les \'el\'ements de la grille ne devrait pas arriv\'e dans un contexte d'utilisation normale. On peut approxim\'e la compl\'exit\'e moyenne a $n*log(n)$ en prenant en compte le fait que la liste des serpents sera tri\'e \`a chaque modification afin de conserver le serpent donnant le plus de point en prem\`ere position. Nous nous retrouvons alors dans la m\^eme situation que pour la compl\'exit\'e spaciale. 
+
+Globalement, c'est algorithme sembe donc plus lourd que l'algorithme pr\'ec\'edent pour un joueur contre joueur. Cependant, pour une grille tr\`es grande, il va tendre \`a se rapprocher de l'algorithme de niveau 0 en vitesse et en occupation de l'espace. Il est donc plus int\'eressant pour un jeu standart avec des personnes ayant une compr\'ehension correcte du jeu, mais cherchant un adversaire relativement simple \`a battre. Il est d'autant plus int\'eressant que des joueurs cherchant un certain challenge devrait joueur sur des grilles relativement grande, et par cons\'equent, r\'ev\'eler l'efficacit\'e de cette algorithme proposant un bon \'equilibre entre compl\'exit\'e de jeu et temps de jeu.
+
 % ---- IA 2 ------------------------------------------------------------------------
 \section{IA - La connaissance. Niveau 2}
 
