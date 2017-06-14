@@ -280,7 +280,7 @@ Les fonctions $score$ et $play$ sont abstraite de compl\'exit\'e simple (O(1)). 
 
 \subsubsection{Spaciale}
 
-La complexit\'e spaciale de cette fonction est essentiellement li\'ee \`a la taille de l'arbre des coups, et \`a sa cr\'eation. Nous pouvons limiter l'impact en m\'emoire en utilisant de la r\'ecursivit\'e terminale au lieu de la r\'ecursivit\'e standart, permettant ainsi de ne plus puiser dans les ressources de la RAM. Cependant, le programme demandera tout de m\^eme de stocker la grille compl\`ete et l'arbre des possibles complet. On peut dire que la complexit\'e spaciale globale est li\'e \`a la compl\'exit\'e spaciale de la grille ainsi: $CSGlobale=CSGrille^(n!)$ ou n est le nombre de case. 
+La complexit\'e spaciale de cette fonction est essentiellement li\'ee \`a la taille de l'arbre des coups, et \`a sa cr\'eation. Nous pouvons limiter l'impact en m\'emoire en utilisant de la r\'ecursivit\'e terminale au lieu de la r\'ecursivit\'e standart, permettant ainsi de ne plus puiser dans les ressources de la RAM. Cependant, le programme demandera tout de m\^eme de stocker la grille compl\`ete et l'arbre des possibles complet. On peut dire que la complexit\'e spaciale globale est li\'e \`a la compl\'exit\'e spaciale de la grille ainsi: $CSGlobale=CSGrille*(n!)$ ou n est le nombre de case. Nous pouvons en conclure que, si nous n'appliquons pas de r\'ecursivt\'e terminale, nous allons tr\`es rapidement d\'epasser la m\'emoire d'un ordinateur standart, car pour chaque appel r\'ecusif, nous allons stocker un arbre de taille $CSGlobale$. Le nombre d'appel r\'ecursif augmentant avec la taille de la grille de fa\c{c}on lin\'eaire, nous pouvons dire que l'algorithme occupe une large place dans la m\'emoire en r\'ecursif stantdart, et il est certain qu'une r\'ecursivit\'e terminale permettrait de compenser cette failblesse. Cependant, au vue des performances actuelle des ordinateur, nous pouvons l'impl\'ementer en r\'ecursif non terminale en limitant la taille de la grille, et en se basant sur des tailles \og{}standart\fg{} de l'ordre de $8*8$ par exemple.
 
 \subsubsection{Temporelle}
 
@@ -290,7 +290,12 @@ La compl\'exit\'e de la fonction de g\'en\'eration des coups est li\'e \`a la co
 
 Ainsi, la compl\'exit\'e de la fonction d'ajout sera : 
 
-$CT_{initTreeMove}$ = O($(4*CT_{ajoutArbre}^n)$) = O($CT_{ajoutArbre}^n$) ~ O($(n*log(n))^n$) ~ O($n^n$)
+$CT_{initTreeMove}$ = O($(4*CT_{ajoutArbre}*n)$) = O($CT_{ajoutArbre}^n$) ~ O($(n*log(n))*n$) ~ O($n^2*log(n)$) > O($n^2$)
+
+Pour cette algorithme, la g\'en\'eration de l'arbre des possibles, et donc l'attente avant le lancement du jeu, va augmenter de fa\c{c}on exponentielle, c'est \`a dire que plus la grille va \^etre grande, plus le joueur devra attendre avant de pouvoir commencer \`a jouer. Cependant, le choix d'un coup par l'odinateur augmente de fa\c{c}on lin\'eaire, car il lui suffit de trouver le bon \'el\'ement dans la liste des possibilit\'e suivant l'\'etat actuelle de jeu. Cette liste ne pouvant d\'epasser le nombre d'\'el\'ement pr\'esent dans la grille, et le nombre d'\'el\'ement possible \'etant r\'eduis \`a chaque \'etape (puisqu'il y a de moins en moins de case jouable), on peut affirmer que l'IA devrait \^etre de plus en plus rapide \`a jouer.
+
+Pour cette derni\`ere IA, nous avons affaire \`a une intelligence tr\`es difficile \`a battre. Cependant, le processus d'initialisation du jeu et de l'IA va \^etre extr\`emement lourd et long. Elle reste cependant interressante pour des joueurs cherchant un challenge \'enorme, bien qu'il ne faille attendre un certain temps avant le d\'ebut de la partie. Il est possible de gagner du temps en g\'en\'erant au pr\'ealable des mod\`ele de grille existant et leurs arbres de coups. Au quel cas, si l'utilisateur choisis une grille connue, le processus de cr\'eation n'est plus n\'ecessaire, et le jeu sera en apparence aussi rapide que pour l'IA 0. 
+
 
 
 % ------------------------------------------------------------- MODELISATION -------------------------------------------------------------  %
