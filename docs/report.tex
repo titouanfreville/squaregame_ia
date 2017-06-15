@@ -339,8 +339,8 @@ La structure a utilis\'e pour l'IA 2 est assez \'evidente, elle fait partie de s
 
 \part{Choix du Langage}
 
-Maintenant que nous avons d\'etermin\'e nos structure de donn\'e et nos algorithmes, nous pouvons justifier un choix de langage de programmation. \\
-Nos algorithmes et structures de donn\'es sont r\'ecursifs, par cons\'equent, s'orienter sur un langage imp\'eratif tel que C ou Java est peu adapt\'e (m\^eme si les derni\`eres version g\`ere correctement la r\'ecursivit\'e, ce ne sont pas des langages con\c{c}ue dans ce but). De plus, nous avons des algorithme complexe \`a mettre en place. Aussi, un langage de programmation fonctionnelle semble plus appropir\'e. \\
+Maintenant que nous avons d\'etermin\'e nos structures de donn\'es et nos algorithmes, nous pouvons justifier un choix de langage de programmation. \\
+Nos algorithmes et structures de donn\'es sont r\'ecursifs, par cons\'equent, s'orienter sur un langage imp\'eratif tel que C ou Java est peu adapt\'e (m\^eme si les derni\`eres version g\`ere correctement la r\'ecursivit\'e, ce ne sont pas des langages con\c{c}ue dans ce but). De plus, nous avons des algorithmes complexe \`a mettre en place. Aussi, un langage de programmation fonctionnelle semble plus appropir\'e. \\
 Parmi les diff\'erents langages de programmation fonctionnelle que nous connaission (LISP, \'elixir et OCaml), nous avons pr\'ef\'er\'e choisir OCaml car un des membres du groupes \'etait plus \`a l'aise avec OCaml que les autres, l'ayant pratiqu\'e pendant 3 ans. \\
 Nous avons donc choisi le langage sur le quel nous \'etions le plus exp\'eriment\'e, et qui nous semble le plus adapt\'e vis \`a vis de nos donn\'ees.
 
@@ -353,28 +353,28 @@ Pour la simulation, nous utiliserons une grille 2x2 (donc une grille de 4 cases)
 
 \chapter{Initialisation}
 
-Voyons comment les diff\'erentes IAs et la grille vont \^etre initialiser. 
+Voyons comment les diff\'erentes IAs et la grille vont \^etre initialis\'ees. 
 
-Dans le cas d'une grille 2x2, la grille va \^etre initialis\'e assez rapidement. Elle sera repr\'esenter par un arbre de 4 \'el\'ements, binaire et \'equilibr\'e afin de repr\'esenter le graph choisi pour la grille (figure:~\autoref{newgrid}, page~\pageref{newgrid}).
+Dans le cas d'une grille 2x2, la grille va \^etre initialis\'e assez rapidement. Elle sera repr\'esent\'ee par un arbre de 4 \'el\'ements binaire et \'equilibr\'e afin de repr\'esenter le graph choisi pour la grille (figure:~\autoref{newgrid}, page~\pageref{newgrid}).
 
 Du point de vue des IAs, les IAs 0 et 1 n'ont pas besoin de phase d'initialisation autre que leur cr\'eation. Il n'y a pas d'objets particulier \`a mettre en oeuvre, seulement des espaces m\'emoires \`a r\'eserver. 
 
-Pour la derni\`ere IA, il nous faut initialiser l'arbre des possibles. ce processus est long, et l'arbre obtenue m\^eme pour une grille aussi petite, reste assez imposant, aussi nous ne pr\'esenterons qu'une d\'erivation limit\'e de l'arbre des coups afin d'illuster sont fonctionnement sans avoir \`a pr\'esenter un sh\'ema trop lourd.
+Pour la derni\`ere IA, il nous faut initialiser l'arbre des possibles. Ce processus est long, et l'arbre obtenue m\^eme pour une grille aussi petite, reste assez imposant, aussi nous ne pr\'esenterons qu'une d\'erivation limit\'e de l'arbre des coups afin d'illuster sont fonctionnement sans avoir \`a pr\'esenter un sh\'ema trop lourd.
 
-Pour initialiser l'arbre des coups, nous allons proc\'eder assez simplement :
+Pour initialiser l'arbre des coups, nous allons proc\'eder assez simplement~:
 \begin{itemize}
  \item Nous prenons une case de la grille.
- \item Nous cr\'eons z\'ero \`a quatre (en fonction du nombre de c\^ot\'e disponnible dans la grille) \og{}copie\fg{} de la grille que nous mettons \`a jour, chacune en fonction du c\^ot\'e du carr\'e ferm\'e. (figure:~\autoref{arbre_possible_updategrid}, page:~\pageref{arbre_possible_updategrid})
- \item Nous rappelons la fonction sur les grilles obtenue afin de g\'en\'erer le rang suivant. 
+ \item Nous cr\'eons z\'ero \`a quatre (en fonction du nombre de c\^ot\'e disponnible dans la grille) \og{}copie\fg{} de la grille que nous mettons \`a jour, chacune en fonction du c\^ot\'e du carr\'e ferm\'e. (figure~:~\autoref{arbre_possible_updategrid}, page~:~\pageref{arbre_possible_updategrid})
+ \item Nous rappelons la fonction sur les grilles obtenues afin de g\'en\'erer le rang suivant. 
 \end{itemize}
 
 \chapter{Tour de jeu}
 
-Projetons nous dans une situation de jeu, en admettant que 3 coups ai \'et\'e jouer et que ce soit au tour de l'IA. La configuration actuelle est r\'epr\'esent\'e dans la figure~:~\autoref{conf_initiale_jeu}, page:~\pageref{conf_initiale_jeu}.
+Projetons nous dans une situation de jeu, en admettant que 3 coups aient \'et\'e jou\'es et que ce soit au tour de l'IA. La configuration actuelle est r\'epr\'esent\'ee dans la figure~:~\autoref{conf_initiale_jeu}, page~:~\pageref{conf_initiale_jeu}.
 
-Au quel cas, nous avons deux IA qui sont dans des \'etas sp\'ecifique de m\'emoire. 
+Au quel cas, nous avons deux IA qui sont dans des \'etats sp\'ecifique de m\'emoire. 
 
-L'IA 1, qui voit 2 serpents ($[([(0,a)],1),([(1,a),(1,n),(0,b), 3)]$ et l'IA 2 qui va avoir \'evoluer dans l'arbre des possibles jusqu'a l'\'etat actuelle. 
+L'IA 1, qui voit 2 serpents ($[([(0,a)],1),([(1,a),(1,n),(0,b), 3)]$ et l'IA 2 qui va avoir \'evolu\'ee dans l'arbre des possibles jusqu'a l'\'etat actuelle. 
 
 Dans cette configuration, faisons jouer chaque IA. 
 
