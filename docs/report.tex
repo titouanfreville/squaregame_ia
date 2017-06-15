@@ -8,7 +8,7 @@
 \usepackage{graphicx}
 
 % Title Page
-\title{Rapport technique \\Mini Projet : Le jeu du carré, IA joueuses}
+\title{Rapport technique \\Mini projet : Le jeu du carré, IAs joueuses}
 \author{Ange Jennyfer NGUENO FOKAM - 170840\\Julien PETRIGNET 217307\\Titouan FREVILLE - 217821\\Sara EL AICHI 226328}
 
 % Document start
@@ -22,46 +22,46 @@
 
 % R\'esum\'e
 \begin{abstract}
-Le projet IA joueuses pour le jeu du carré à pour but de répondre au sujet de 4AIT de l'école Supinfo, promotion 2018. L'objectif du projet est de réalisé aux moins deux intelligences artificielle capable de jouer au jeu du carré. Les intelligences propos\'ees devront \^etre capable de jouer entre elle ou contre un joueur ext\'erieur. \\
+Le projet IAs joueuses pour le jeu du carré a pour objet de répondre au sujet de 4AIT de l'école Supinfo, promotion 2018. L'objectif du projet est de réaliser au moins deux intelligences artificielle capables de jouer au jeu du carré. Les intelligences propos\'ees devront \^etre capables de jouer entre elle ou contre un joueur ext\'erieur. \\
 \\
-A partir de cet \'enonc\'e, plusieurs solutions s'offrent \`a nous. Pour pouvoir r\'epondre le mieux aux probl\`emes, il nous faut tout d'abord analyser le jeu s\'electionner afin de d\'eterminer son type (d\'ecision, for\c{c}age, anticipation, calcul, r\'eaction, ...). Nous pourrons alors nous interroger sur les diff\'erentes IA proposable puis sur les langages utilisables afin de s\'electionner le plus intéressant pour nous.
+A partir de cet \'enonc\'e, plusieurs solutions s'offrent \`a nous. Pour pouvoir r\'epondre le mieux aux probl\`emes, il nous faut tout d'abord analyser le jeu s\'electionn\'e afin de d\'eterminer son type (d\'ecision, for\c{c}age, anticipation, calcul, r\'eaction, ...). Nous pourrons alors nous interroger sur les diff\'erentes IAs proposables puis sur les langages utilisables afin de s\'electionner le plus intéressant pour nous.
 \\
-Ce rapport \`a pour but de pr\'esenter toute la d\'emarche de r\'eflexion que nous avons eu afin de prendre une d\'ecision nous permettant de r\'esoudre le probl\`eme de la fa\c{c}on la plus intéressante.
+Ce rapport pr\'esente toute la d\'emarche de r\'eflexion que nous avons eu afin de prendre une d\'ecision nous permettant de r\'esoudre le probl\`eme de la fa\c{c}on la plus intéressante.
 \end{abstract}
 
 % ------------------------------------------------------------- PRESENTATION GENERALE JEU -------------------------------------------------------------  %
 \part{Le jeu, pr\'esentation et compr\'ehension}
 
 \chapter{Historique, principe de base, type}
-Le jeu du carr\'e est un jeu d\'ecris en 1889 pour la premi\`ere fois par Edouard Lucas, math\'ematicien. Le principe du jeu est tr\`es simple, et nécessite peu de mat\'eriel. Le but est de cr\'eer des forme carr\'e. Pour cela, chaque joueur va a tour de r\^ole tracer un segment sur un quadrillage permettant de repr\'esenter un c\^ot\'e pour un future carr\'e. Le jouer ayant ferm\'e le plus de carr\'e remporte la partie.
+Le jeu du carr\'e est un jeu d\'ecrit pour la premi\`ere fois en 1889 par Edouard Lucas, math\'ematicien. Le principe du jeu est tr\`es simple, et nécessite peu de mat\'eriel. Le but est de cr\'eer des formes carr\'ees. Pour cela, chaque joueur va \`a tour de r\^ole tracer un segment sur un quadrillage permettant de repr\'esenter un c\^ot\'e pour un futur carr\'e. Le joueur ayant ferm\'e le plus de carr\'e remporte la partie.
 
 \section{Type de jeu}
 
-Le jeu des petits carr\'es est un jeu de r\'eflexion. Il fonctionne comme le jeu de dame, dans le sens ou, lorsque le jeu est ma\^itriser, l'objectif devient de forcer le jouer adverse a fermer un certain nombre de carr\'e pour pouvoir en r\'ecup\'erer plus par la suite. C'est donc un jeu de for\c{c}age et de d\'ecision. Fonctionnant sur des formes g\'eom\'etrique, il va donc se concentr\'e sur la capacit\'e \`a lire le plan repr\'esenter par la grille et \`a venir correctement enfermer l'adversaire dans une situation de fermeture perdante. Nous allons donc chercher \`a permettre \`a nos IA une bonne compr\'ehension de l'occupation de l'espace, et une bonne lecture du plan grillag\'e.
+Le jeu des petits carr\'es est un jeu de r\'eflexion. Il fonctionne comme le jeu de dames, dans le sens o\`u, lorsque le jeu est ma\^itris\'e, l'objectif devient de forcer le joueur adverse \`a fermer un certain nombre de carr\'es pour pouvoir en r\'ecup\'erer plus par la suite. C'est donc un jeu de for\c{c}age et de d\'ecision. Fonctionnant sur des formes g\'eom\'etriques, il va donc se concentrer sur la capacit\'e \`a lire le plan repr\'esent\'e par la grille et \`a venir correctement enfermer l'adversaire dans une situation de fermeture perdante. Nous allons donc chercher \`a permettre \`a nos IA une bonne compr\'ehension de l'occupation de l'espace, et une bonne lecture du plan grillag\'e.
 
 \section{Compr\'ehension}
 
 D\'etaillons maintenant la strat\'egie principale du jeu.\\
-Le jeu se base donc sur la g\'eom\'etrie et plus particuli\`erement les formes rectangulaires, et les carr\'es. La premi\`ere phase du jeu va avoir pour objectif de cr\'eer des zones de \og{}non droit\fg{} tel que si un joueur place un trait dans cette zone, il donne une grande quantit\'e de points \`a son adversaire. Ensuite, chaque joueur va devoir essayer d'agrandir sa zone de non droit et en \og{}poss\'eder\fg{} une depuis la qu'elle il r\'ecup\'erera plus de points que son adversaire. L'objectif est donc de cr\'eer un couloir (appeler plus g\'en\'eralement \og{}serpent\fg{} en raison de sa forme) longiligne puis de forcer l'adversaire \`a jouer en bordure de ce couloir tel que d\`es qu'il ferme un carr\'e dans cette zone, le joueur r\'ecup\`ere plus de point que lui. \\
-Cette strat\'egie essentiel est toutefois complexe, et n'est pas ce que les joueurs seront capable de produire en premier. Afin de proposer des IAs \'equilibr\'ees,  il nous faudra donc une IA incapable de pr\'evoir/comprendre ce Fonctionnement. \\
+Le jeu se base donc sur la g\'eom\'etrie et plus particuli\`erement les formes rectangulaires, et les carr\'es. La premi\`ere phase du jeu va avoir pour objectif de cr\'eer des zones de \og{}non-droit\fg{} tel que si un joueur place un trait dans cette zone, il donne une grande quantit\'e de points \`a son adversaire. Ensuite, chaque joueur va devoir essayer d'agrandir sa zone de non-droit et en \og{}poss\'eder\fg{} une depuis l\`a qu'elle il r\'ecup\'erera plus de points que son adversaire. L'objectif est donc de cr\'eer un couloir (appeler plus g\'en\'eralement \og{}serpent\fg{} en raison de sa forme) longiligne puis de forcer l'adversaire \`a jouer en bordure de ce couloir tel que d\`es qu'il ferme un carr\'e dans cette zone, le joueur r\'ecup\`ere plus de points que lui. \\
+Cette strat\'egie essentielle est toutefois complexe, et n'est pas ce que les joueurs seront capables de produire en premier. Afin de proposer des IAs \'equilibr\'ees,  il nous faudra donc une IA incapable de pr\'evoir/comprendre ce fonctionnement. \\
 Nous pouvons d\'ej\`a entrevoir deux syst\`eme pour concevoir nos IA: une IA simpliste compl\'etant la grille et fermant les carr\'es d\`es que possible, et une IA plus complexe g\'erant la notion basique de serpent sans anticiper sur les coups \`a venir.
 % -----------------------------------------------------------------------------------------------------------------------------------------------------  %
 % ------------------------------------------------------------- PRESENTATION IA  ----------------------------------------------------------------------  %
 \part{Intelligence Artificielle, let's play}
 \chapter{D\'efinition des IA}
 
-Dans la partie pr\'ec\'edente, nous avons parl\'e de plusieur IA possible, plus pr\'ecis\'ement, nous avons introduit deux IA simple. Nous allons ici continuer ce travail afin de red\'efinir les IAs et les compl\'eter.
+Dans la partie pr\'ec\'edente, nous avons parl\'e de plusieurs IAs possibles, plus pr\'ecis\'ement, nous avons introduit deux IAs simples. Nous allons ici continuer ce travail afin de red\'efinir les IAs et les compl\'eter.
 
 
 % ---- IA 0 ------------------------------------------------------------------------
 \section{IA - Base. Niveau 0}
 
-La premi\`ere IA que nous allons d\'ecrire servira de base \`a toutes les IAs suivantes. C'est l'IA la plus simple que l'on puisse faire pour obtenir un r\'esultat interressant, et ce n'est pas pleinement une IA dans le sens ou elle va simplement automatiser un processus de traitement de donn\'ee. \\
+La premi\`ere IA que nous allons d\'ecrire servira de base \`a toutes les IAs suivantes. C'est l'IA la plus simple que l'on puisse faire pour obtenir un r\'esultat interressant, et ce n'est pas pleinement une IA dans le sens o\`u elle va simplement automatiser un processus de traitement de donn\'ees. \\
 L'unique objectif de cette IA est d'\^etre capable de jouer au jeu.
 
 \subsection{Principe}
 
-L'IA basique a donc pour objectif simple de pouvoir placer correctement les liasons sur la grille, et \^etre capable de prendre des points. Pour ce faire, elle va se contenter de placer les liaisons hors carr\'e (des liaisons entre deux somets sont c\^ot\'e) de fa\c{c}on al\'eatoire sur la grille. Puis elle compl\'etera les carr\'es ayant un c\^ot\'e. Une priorit\'e absolue est donn\'e pour fermer les carr\'es, ce qui im\`plique que l'IA ferme de fa\c{c}on syst\'ematique les carr\'es visible jouable \`a son tour. Elle est incapable de calculer le revenu (en point d'une de ses actions).
+L'IA basique a donc pour objectif simple de pouvoir placer correctement les liaisons sur la grille, et \^etre capable de prendre des points. Pour ce faire, elle va se contenter de placer les liaisons hors carr\'e (des liaisons entre deux sommets sans c\^ot\'es) de fa\c{c}on al\'eatoire sur la grille. Puis elle compl\'etera les carr\'es ayant un c\^ot\'e. Une priorit\'e absolue est donn\'ee pour fermer les carr\'es, ce qui im\`plique que l'IA ferme de fa\c{c}on syst\'ematique les carr\'es visibles jouables \`a son tour. Elle est incapable de calculer le revenu en points d'une de ses actions.
 
 \subsection{Heurisitque}
 
@@ -73,12 +73,12 @@ Cette IA a donc besoin de peu de connaissance, et peux de processus. Ces connais
  \item Capable de trouver les carr\'es fermable
 \end{itemize}
 
-Ces trois \'el\'ements sont suffisant pour que cet IA puisse fonctionner.
+Ces trois \'el\'ements sont suffisant pour que cette IA puisse fonctionner.
 
 \subsection{Algorithmes}
 
-Pour la d\'efinition de l'algorithme, nous abstrayon la lecture et les types de donn\'ees par la fonction : lireGrille(grille) dont on suppose le typage connue, et qui nous renvoie les informations voulues. \\
-L'algoritmhe que nous allons utiliser pour la premi\`ere IA est simpliste. Il utilise la fonction de lecture lireGrille pour r\'ecup\'er\'e soit un carr\'e soit une liaison vide. Nous allons d\'efinir de fa\c{c}on abstraite la fonction lireGrille capable de renvoyer ces information puis l'algorithme de l'IA. \\
+Pour la d\'efinition de l'algorithme, nous abstrayons la lecture et les types de donn\'ees par la fonction : lireGrille(grille) dont on suppose le typage connu, et qui nous renvoie les informations voulues. \\
+L'algorithme que nous allons utiliser pour la premi\`ere IA est simpliste. Il utilise la fonction de lecture lireGrille pour r\'ecup\'erer soit un carr\'e soit une liaison vide. Nous allons d\'efinir de fa\c{c}on abstraite la fonction lireGrille capable de renvoyer ces information puis l'algorithme de l'IA. \\
 \begin{algorithmic}
 \Function{lireGrille}{$grille$}
 	\State $case \gets currentCase$
@@ -106,21 +106,21 @@ L'algoritmhe que nous allons utiliser pour la premi\`ere IA est simpliste. Il ut
 	\EndWhile
 \EndFunction
 \end{algorithmic}
-Les fonctions abstraite drawCase, closeCase, countPoints et waitOverPlayer sont considir\'e comme de compl\'exit\'e neutre et instantan\'ee par rapport aux autres fonctions. Leur utilisation est \'evidente ainsi que ce qu'elle font.
+Les fonctions abstraites drawCase, closeCase, countPoints et waitOverPlayer sont considir\'ees comme de compl\'exit\'e neutre ou instantan\'ee par rapport aux autres fonctions. Leurs utilisation est \'evidente ainsi que ce qu'elle font.
 
 \subsection{Complexit\'e}
 
 \subsubsection{Spaciale}
 
-Assez peu de compl\'exit\'e spaciale pour cette algorithme. Une variable est utilis\'e pour la grille, une pour stocker la case en cours d'analyse, une pour le score et une pour attendre l'autre jouer. Soit 4 variable simultan\'ees. La plus part de ces variables contiennes une valeur courte pouvant \^etre stocker faiclement et occupant tr\`es peu d'espace. La grille sera un peu plus longue, et son poid sera d\'ependant de la taille de celle-ci ainsi que du choix de repr\'esentation. On peut donc dire que la complexit\'e spaciale $CS$ est \'equivalente \`a la compl\'exit\'e spaciale de la grille $CSG$. L'occupation de la m\'emoire est donc tr\`es raisonable et, elle augmentera de fa\c{c}on lin\'eaire en fonction du nombre d'\'el\'ement de la grille. 
+Assez peu de compl\'exit\'e spaciale pour cette algorithme. Une variable est utilis\'ee pour la grille, une pour stocker la case en cours d'analyse, une pour le score et une pour attendre l'autre joueur, soit 4 variables simultan\'ees. La plus part de ces variables contiennent une valeur courte pouvant \^etre stock\'ee facilement et occupant tr\`es peu d'espace. La grille sera un peu plus longue, et son poid sera d\'ependant de la taille de celle-ci ainsi que du choix de repr\'esentation. On peut donc dire que la complexit\'e spaciale $CS$ est \'equivalente \`a la compl\'exit\'e spaciale de la grille $CSG$. L'occupation de la m\'emoire est donc tr\`es raisonable et elle augmentera de fa\c{c}on lin\'eaire en fonction du nombre d'\'el\'ement de la grille. 
 
 \subsubsection{Temporelle}
 
-La compl\'exit\'ee temporelle de cette algorithme est assez facile a calculer: \\
+La compl\'exit\'e temporelle de cette algorithme est assez facile a calculer~: \\
 $CT_{ia0}$($n$) = O($CT_{lireGrille}$($n$)$*$4$n$) = O($n*$4$n$)=O(4$n^2$) = O($n^2$), o\`u $n$ est le nombre de case de la grille. \\
-Cette algorithme est donc tr\`es peu optimis\'e, est long a s'\'exut\'e. Son temps d'\'ex\'ecution augmlente en fonction du carr\'e du nombre de case. Il devient donc rapidement au dela d'un temps d'attente supportable. Cependant, ce temps d'\'ex\'ecution est globale sur toute l'\'exution de l'IA, c'est a dire, globalement, si nous faisons s'affronter les deux IAs, cette augmentation de temps est valalble. Dans une utilisation en joueur contre IA, nous pouvons r\'eduire la compl\'exit\'e de l'\'ex\'ecution a la complexit\'e de jouer un tour, le joueur n'ayant qu'a attentendre le coup suivant de l'IA a chaque \'etape. Nous avons alors une compl\'exit\'e lin\'eraire en fonction du nombre d'\'el\'ement de la grille, l'IA ne lisant qu'une seule fois la grille compl\`ete \`a chaque tour de jeu.
+Cet algorithme est donc tr\`es peu optimis\'e et est long a s'\'exuter. Son temps d'\'ex\'ecution augmente en fonction du carr\'e du nombre de case. Il devient donc rapidement au dela d'un temps d'attente supportable. Cependant, ce temps d'\'ex\'ecution est globale sur toute l'\'ex\'ecution de l'IA, c'est a dire, globalement, si nous faisons s'affronter les deux IAs, cette augmentation de temps est valable. Dans une utilisation en joueur contre IA, nous pouvons r\'eduire la compl\'exit\'e de l'\'ex\'ecution a la complexit\'e de jouer un tour, le joueur n'ayant qu'a attentendre le coup suivant de l'IA a chaque \'etape. Nous avons alors une compl\'exit\'e lin\'eraire en fonction du nombre d'\'el\'ement de la grille, l'IA ne lisant qu'une seule fois la grille compl\`ete \`a chaque tour de jeu.
 
-Cette IA est donc relativement rapide en terme d'attente pour le joueur entre chaque tour. Par contre, elle ne devrait pr\'esenter aucune difficult\'e apr\`es quelque partie. Il est \'egalement \`a not\'e que le temps sera un facteur beaucoup plus limitant que l'espace pour cette IA. 
+Cette IA est donc relativement rapide en terme d'attente pour le joueur entre chaque tour. Par contre, elle ne devrait pr\'esenter aucune difficult\'e apr\`es quelque partie. Il est \'egalement \`a not\'e que le temps sera un facteur beaucoup plus limitant que l'espace pour cette IA.
 
 % ---- IA 1 ------------------------------------------------------------------------
 \section{IA - Premi\`eres armes. Niveau 1}
@@ -129,7 +129,7 @@ D\'eveloppons maintenant une IA utilisant les structures de serpents introduite 
 
 \subsection{Principe}
 
-Cette seconde IA se base sur les m\^emes connaissances que l'IA pr\'ec\'edente. Cependant, nous allons modifier les r\`egles de placement des liaisons et ajouter la capacit\'e \`a compter les points. Ainsi, plut\^ot que de placer de fa\c{c}on al\'eatoire des c\^ot\'es, cette nouvelle IA va chercher \`a cr\'eer des serpents et des coridors. Par cons\'equents, elle va en priorit\'e placer un segment au bout d'un autre segment en cherchant a relier deux sommets sp\'ecifiques. Le choix de liaisons entre deux sommets se fait sur la quantit\'e de points r\'ecup\'erables \`a la fermeture du serpent, cette valeur devant \^etre maximis\'ee. Lorsque l'IA \`a la possibilit\'e de clore un serpent, elle va s'interroger sur la quantit\'e de points qu'elle va gagner en le fermant par rapport \`a la quantit\'e de point que l'adversaire peut r\'ecup\'erer. Si le rapport est positif, elle fermera syst\'ematiquement le serpend
+Cette seconde IA se base sur les m\^emes connaissances que l'IA pr\'ec\'edente. Cependant, nous allons modifier les r\`egles de placement des liaisons et ajouter la capacit\'e \`a compter les points. Ainsi, plut\^ot que de placer de fa\c{c}on al\'eatoire des c\^ot\'es, cette nouvelle IA va chercher \`a cr\'eer des serpents et des coridors. Par cons\'equents, elle va en priorit\'e placer un segment au bout d'un autre segment en cherchant a relier deux sommets sp\'ecifiques. Le choix de liaison entre deux sommets se fait sur la quantit\'e de points r\'ecup\'erables \`a la fermeture du serpent, cette valeur devant \^etre maximis\'ee. Lorsque l'IA \`a la possibilit\'e de clore un serpent, elle va s'interroger sur la quantit\'e de points qu'elle va gagner en le fermant par rapport \`a la quantit\'e de point que l'adversaire peut r\'ecup\'erer. Si le rapport est positif, elle fermera syst\'ematiquement le serpent.
 
 \subsection{Heurisitque}
 
@@ -200,13 +200,13 @@ Il lui faut donc deux nouvelles connaissance pour fonctionner correctement.
 	\State ia1($grille$, $snakeList$)
 \EndFunction
 \end{algorithmic}
-Les fonctions non d\'efinis sont consid\'er\'e comme abstraite et connue (car d\'ependante du type de donn\'ees) et soit en temps r\'eel soit sur une compl\'exit\'e maximale de $n$. 
+Les fonctions non d\'efinies sont consid\'er\'es comme abstraites et connues (car d\'ependantes du type de donn\'ees) et soit en temps r\'eel soit ayant une compl\'exit\'e maximale de $n$. 
 
 \subsection{Complexit\'e}
 
 \subsubsection{Spaciale}
 
-Cette s\'erie d'algorithme utilise plus de place que le pr\'ecendent. Une variable suppl\'ementaire doit \^etre utiliser pour stocker la liste des serpents. La compl\'exit\'e de la liste de serpent d\'ependant de celle de la grille, et on peut dire que dans le pire des cas, elle sera de : $CSG*CSG$. En l'ajoutant \`a la compl\'exit\'e pr\'ec\'edente, on a que $CSA1=O(CSG+CSG^2)=CSG^2$. Aussi, dans le pire des cas, l'occupation de l'espace augmente exponentiellement vis \`a vis de la taille de la grille. Cependant, le cas ou chaque \'el\'ement de la grille se retrouve dans chaque serpent possible est quasiment impossibe, sauf mal utilisation des fonctions de cr\'eations des serpents. On peut m\^eme dire que dans un cas id\'eale, ou il n'existe qu'un serpent, la compl\'exit\'e spaciale sera lin\'eaire en fonction du nombre d'\'el\'ement de la grille. Par cons\'equent, en moyenne, la compl\'exit\'e spaciale de la fonciton sera en moyenne logarithmique, aussi, on peut supposer que l'espace pris par la fonction augmentera \'enormement en fonction du nombre d'\'el\'ement dans la grille pour des petites tailles puis aura tendance a se stabilis\'e pour des grilles de tr\`es grande taille. 
+Cette s\'erie d'algorithme utilise plus de place que le pr\'ecendent. Une variable suppl\'ementaire doit \^etre utilis\'ee pour stocker la liste des serpents. La compl\'exit\'e de la liste de serpent d\'ependant de celle de la grille, nous pouvons dire que dans le pire des cas, elle sera de : $CSG*CSG$. En l'ajoutant \`a la compl\'exit\'e pr\'ec\'edente, on a que $CSA1=O(CSG+CSG^2)=CSG^2$. Aussi, dans le pire des cas, l'occupation de l'espace augmente exponentiellement vis \`a vis de la taille de la grille. Cependant, le cas ou chaque \'el\'ement de la grille se retrouve dans chaque serpent possible est quasiment impossibe, sauf mal utilisation des fonctions de cr\'eations des serpents. On peut m\^eme dire que dans un cas id\'eale, ou il n'existe qu'un serpent, la compl\'exit\'e spaciale sera lin\'eaire en fonction du nombre d'\'el\'ement de la grille. Par cons\'equent, en moyenne, la compl\'exit\'e spaciale de la fonciton sera en moyenne logarithmique, aussi, on peut supposer que l'espace pris par la fonction augmentera \'enormement en fonction du nombre d'\'el\'ement dans la grille pour des petites tailles puis aura tendance a se stabiliser pour des grilles de tr\`es grandes tailles. 
 
 \subsubsection{Temporelle}
 
@@ -217,7 +217,7 @@ $CT_{force}$ = O$(CT_{isClosableSnake}+CT_{snakeEnd}) = $O$(n+n) = $O$(n)$ \\
 $CT_{move}$ = O$(CT_{isClosableSnake}+CT_{closeSnake}+CT_{closableWith}+CT_{force})*n$ = O$(n+n+n+n)*n$ = O$(n^2)$
 
 
-La compl\'exit\'e temporelle au pire est crois donc exponentiellement en fonction du nombre d'\'el\'ement dans la grille. Cependant, le cas ou chaque \'el\'ement de la grille donne un serpent contenant tous les \'el\'ements de la grille ne devrait pas arriv\'e dans un contexte d'utilisation normale. On peut approxim\'e la compl\'exit\'e moyenne a $n*log(n)$ en prenant en compte le fait que la liste des serpents sera tri\'e \`a chaque modification afin de conserver le serpent donnant le plus de point en prem\`ere position. Nous nous retrouvons alors dans la m\^eme situation que pour la compl\'exit\'e spaciale. 
+La compl\'exit\'e temporelle au pire croit donc exponentiellement en fonction du nombre d'\'el\'ement dans la grille. Cependant, le cas ou chaque \'el\'ement de la grille donne un serpent contenant tous les \'el\'ements de la grille ne devrait pas arriv\'e dans un contexte d'utilisation normale. Nous pouvons approximer la compl\'exit\'e moyenne a $n*log(n)$ en prenant en compte le fait que la liste des serpents sera tri\'e \`a chaque modification afin de conserver le serpent donnant le plus de point en prem\`ere position. Nous nous retrouvons alors dans la m\^eme situation que pour la compl\'exit\'e spaciale. 
 
 Globalement, c'est algorithme sembe donc plus lourd que l'algorithme pr\'ec\'edent pour un joueur contre joueur. Cependant, pour une grille tr\`es grande, il va tendre \`a se rapprocher de l'algorithme de niveau 0 en vitesse et en occupation de l'espace. Il est donc plus int\'eressant pour un jeu standart avec des personnes ayant une compr\'ehension correcte du jeu, mais cherchant un adversaire relativement simple \`a battre. Il est d'autant plus int\'eressant que des joueurs cherchant un certain challenge devrait joueur sur des grilles relativement grande, et par cons\'equent, r\'ev\'eler l'efficacit\'e de cette algorithme proposant un bon \'equilibre entre compl\'exit\'e de jeu et temps de jeu.
 
