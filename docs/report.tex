@@ -224,15 +224,15 @@ Globalement, c'est algorithme sembe donc plus lourd que l'algorithme pr\'ec\'ede
 % ---- IA 2 ------------------------------------------------------------------------
 \section{IA - La connaissance. Niveau 2}
 
-Pour le joueur, l'IA 1 va \^etre plus complexe a vaincre par sa capacit\'e \`a choisir l'option avec meilleur gain. Cependant, elle reste extr\`emement simple \`a vaincre car tr\`es sensible au forcing. Ce qui nous am\`ene \`a une nouvelle IA. 
+Pour le joueur, l'IA 1 va \^etre plus complexe a vaincre par sa capacit\'e \`a choisir l'option avec le meilleur gain. Cependant, elle reste extr\`emement simple \`a vaincre car tr\`es sensible au forcing. Ce qui nous am\`ene \`a une nouvelle IA. 
 
 \subsection{Principe}
 
-L'IA que nous allons introduire ici est l'IA la plus compl\`ete que l'on puisse faire pour un jeu. Elle est simple \`a comprendre, mais extr\`emement difficile \`a battre. Elle consiste \`a g\'en\'erer l'int\'egralit\'e des \'evolutions possibles dans une grille de la grille vide a la grille pleine. Elle connait alors toutes les configurations possibles \`a chaque instant de la partie et vas toujours choisir le placement lui donnant le plus de condition de victoire \`a chaque instant.
+L'IA que nous allons introduire ici est l'IA la plus compl\`ete que l'on puisse faire pour un jeu. Elle est simple \`a comprendre, mais extr\`emement difficile \`a battre. Elle consiste \`a g\'en\'erer l'int\'egralit\'e des \'evolutions possibles du jeu, de la grille vide a la grille pleine. Elle connait alors toutes les configurations possibles \`a chaque instant de la partie et vas toujours choisir le placement lui donnant le plus de condition de victoire \`a chaque instant.
 
 \subsection{Heurisitque}
 
-Notre troisi\`eme IA a donc besoin d'une seule chose en plus de l'IA 0: la connaissance de toutes les configurations. Elle n'a plus besoin de savoir compter les points puisque elle sait qu'elle coup l'am\`ene \`a la victoire. Elle n'a plus non plus besoin de savoir construire des serpents. Bref, il lui faut juste revenir aux connaissance de bases et cr\'eer l'arbre de connaissance correspondant \`a la grille demand\'e par le joueur.
+Notre troisi\`eme IA a donc besoin d'une seule chose en plus de l'IA 0: la connaissance de toutes les configurations. Elle n'a plus besoin de savoir compter les points puisque elle sait qu'elle coup l'am\`ene \`a la victoire. Elle n'a plus non plus besoin de savoir construire des serpents. Bref, il lui faut juste revenir aux connaissance de bases et cr\'eer l'arbre de connaissance correspondant \`a la grille demand\'ee par le joueur.
 
 \subsection{Algorithmes}
 
@@ -277,64 +277,64 @@ Notre troisi\`eme IA a donc besoin d'une seule chose en plus de l'IA 0: la conna
 	\State ia2($playerTree$)
 \EndFunction
 \end{algorithmic}
-Les fonctions $score$ et $play$ sont abstraite de compl\'exit\'e simple (O(1)). La fonction $addTree$ n'est pas pr\'esenter ici car d\'ependante de la mod\'elisation des donn\'ees, elle sera cependant assez classique (lire l'arbre jusqu'a arriver \`a la place de l'\'el\'ement \`a ajouter et \'equilibr\'e si n\'ecessaire).
+Les fonctions $score$ et $play$ sont abstraite de compl\'exit\'e simple (O(1)). La fonction $addTree$ n'est pas pr\'esent\'ee ici car d\'ependante de la mod\'elisation des donn\'ees, elle sera cependant assez classique (lire l'arbre jusqu'a arriver \`a la place de l'\'el\'ement \`a ajouter et \'equilibr\'e si n\'ecessaire).
 
 \subsection{Complexit\'e}
 
 \subsubsection{Spaciale}
 
-La complexit\'e spaciale de cette fonction est essentiellement li\'ee \`a la taille de l'arbre des coups, et \`a sa cr\'eation. Nous pouvons limiter l'impact en m\'emoire en utilisant de la r\'ecursivit\'e terminale au lieu de la r\'ecursivit\'e standart, permettant ainsi de ne plus puiser dans les ressources de la RAM. Cependant, le programme demandera tout de m\^eme de stocker la grille compl\`ete et l'arbre des possibles complet. On peut dire que la complexit\'e spaciale globale est li\'e \`a la compl\'exit\'e spaciale de la grille ainsi: $CSGlobale=CSGrille*(n!)$ ou n est le nombre de case. Nous pouvons en conclure que, si nous n'appliquons pas de r\'ecursivt\'e terminale, nous allons tr\`es rapidement d\'epasser la m\'emoire d'un ordinateur standart, car pour chaque appel r\'ecusif, nous allons stocker un arbre de taille $CSGlobale$. Le nombre d'appel r\'ecursif augmentant avec la taille de la grille de fa\c{c}on lin\'eaire, nous pouvons dire que l'algorithme occupe une large place dans la m\'emoire en r\'ecursif stantdart, et il est certain qu'une r\'ecursivit\'e terminale permettrait de compenser cette failblesse. Cependant, au vue des performances actuelle des ordinateur, nous pouvons l'impl\'ementer en r\'ecursif non terminale en limitant la taille de la grille, et en se basant sur des tailles \og{}standart\fg{} de l'ordre de $8*8$ par exemple.
+La complexit\'e spaciale de cette fonction est essentiellement li\'ee \`a la taille de l'arbre des coups, et \`a sa cr\'eation. Nous pouvons limiter l'impact en m\'emoire en utilisant de la r\'ecursivit\'e terminale au lieu de la r\'ecursivit\'e non-terminal, permettant ainsi de ne plus puiser dans les ressources de la RAM. Cependant, le programme demandera tout de m\^eme de stocker la grille compl\`ete et l'arbre des possibles complet. Nous pouvons dire que la complexit\'e spaciale globale est li\'ee \`a la compl\'exit\'e spaciale de la grille ainsi: $CSGlobale=CSGrille*(n!)$ ou n est le nombre de case. Nous pouvons en conclure que, si nous n'appliquons pas de r\'ecursivt\'e terminale, nous allons tr\`es rapidement d\'epasser la m\'emoire d'un ordinateur standart, car pour chaque appel r\'ecusif, nous allons stocker un arbre de taille $CSGlobale$. Le nombre d'appel r\'ecursif augmentant avec la taille de la grille de fa\c{c}on lin\'eaire, nous pouvons dire que l'algorithme occupe une large place dans la m\'emoire en r\'ecursif stantdart, et il est certain qu'une r\'ecursivit\'e terminale permettrait de compenser cette failblesse. Cependant, au vue des performances actuelle des ordinateur, nous pouvons l'impl\'ementer en r\'ecursif non terminale en limitant la taille de la grille, et en se basant sur des tailles \og{}standarts\fg{} de l'ordre de $8*8$ par exemple.
 
 \subsubsection{Temporelle}
 
-Dans cette configuration, l'essentielle de la compl\'exit\'e temporelle est li\'e \`a la g\'en\'eration de l'arbre des possibles. En effet, les fonctions $selectPlay$, $playWinner$ et $ia2$ auront au pire une compl\'exit\'e de $n$. 
+Dans cette configuration, l'essentielle de la compl\'exit\'e temporelle est li\'ee \`a la g\'en\'eration de l'arbre des possibles. En effet, les fonctions $selectPlay$, $playWinner$ et $ia2$ auront au pire une compl\'exit\'e de $n$. 
 
-La compl\'exit\'e de la fonction de g\'en\'eration des coups est li\'e \`a la compl\'exit\'e d'ajout d'un \'el\'ement dans l'arbre. N'ayant pas pr\'esenter l'algorithme d'ajout (li\'e \`a la mod\'elisation des donn\'ees), nous notterons $CT_{ajoutArbre}$ sa valeur exacte, on peut cependant l'approxim\'e \`a $n*log(n)$ \'etant donn\'e la structure d'arbre et en anticiapant le fait que l'arbre ne sera pas \'equilibr\'e via une fonction sp\'ecifique (\'etant donn\'e son objectif), mais qu'il devrait \^etre naturellement \'equilibr\'e par le concept de jeu.
+La compl\'exit\'e de la fonction de g\'en\'eration des coups est li\'ee \`a la compl\'exit\'e d'ajout d'un \'el\'ement dans l'arbre. N'ayant pas pr\'esenter l'algorithme d'ajout (li\'e \`a la mod\'elisation des donn\'ees), nous notterons $CT_{ajoutArbre}$ sa valeur exacte, on peut cependant l'approxim\'ee \`a $n*log(n)$ \'etant donn\'e la structure d'arbre et en anticipant le fait que l'arbre ne sera pas \'equilibr\'e via une fonction sp\'ecifique (\'etant donn\'e son objectif), mais qu'il devrait \^etre naturellement \'equilibr\'e par le concept de jeu.
 
 Ainsi, la compl\'exit\'e de la fonction d'ajout sera : 
 
 $CT_{initTreeMove}$ = O($(4*CT_{ajoutArbre}*n)$) = O($CT_{ajoutArbre}^n$) ~ O($(n*log(n))*n$) ~ O($n^2*log(n)$) > O($n^2$)
 
-Pour cette algorithme, la g\'en\'eration de l'arbre des possibles, et donc l'attente avant le lancement du jeu, va augmenter de fa\c{c}on exponentielle, c'est \`a dire que plus la grille va \^etre grande, plus le joueur devra attendre avant de pouvoir commencer \`a jouer. Cependant, le choix d'un coup par l'odinateur augmente de fa\c{c}on lin\'eaire, car il lui suffit de trouver le bon \'el\'ement dans la liste des possibilit\'e suivant l'\'etat actuelle de jeu. Cette liste ne pouvant d\'epasser le nombre d'\'el\'ement pr\'esent dans la grille, et le nombre d'\'el\'ement possible \'etant r\'eduis \`a chaque \'etape (puisqu'il y a de moins en moins de case jouable), on peut affirmer que l'IA devrait \^etre de plus en plus rapide \`a jouer.
+Pour cet algorithme, la g\'en\'eration de l'arbre des possibles, et donc l'attente avant le lancement du jeu, va augmenter de fa\c{c}on exponentielle, c'est \`a dire que plus la grille va \^etre grande, plus le joueur devra attendre avant de pouvoir commencer \`a jouer. Cependant, le choix d'un coup par l'odinateur augmente de fa\c{c}on lin\'eaire, car il lui suffit de trouver le bon \'el\'ement dans la liste des possibilit\'es suivant l'\'etat actuelle de jeu. Cette liste ne pouvant d\'epasser le nombre d'\'el\'ement pr\'esent dans la grille, et le nombre d'\'el\'ement possible \'etant r\'eduis \`a chaque \'etape (puisqu'il y a de moins en moins de case jouable), nous pouvons affirmer que l'IA devrait \^etre de plus en plus rapide \`a jouer.
 
-Pour cette derni\`ere IA, nous avons affaire \`a une intelligence tr\`es difficile \`a battre. Cependant, le processus d'initialisation du jeu et de l'IA va \^etre extr\`emement lourd et long. Elle reste cependant interressante pour des joueurs cherchant un challenge \'enorme, bien qu'il ne faille attendre un certain temps avant le d\'ebut de la partie. Il est possible de gagner du temps en g\'en\'erant au pr\'ealable des mod\`ele de grille existant et leurs arbres de coups. Au quel cas, si l'utilisateur choisis une grille connue, le processus de cr\'eation n'est plus n\'ecessaire, et le jeu sera en apparence aussi rapide que pour l'IA 0. 
+Pour cette derni\`ere IA, nous avons affaire \`a une intelligence tr\`es difficile \`a battre. Cependant, le processus d'initialisation du jeu et de l'IA va \^etre extr\`emement lourd et long. Elle reste cependant interressante pour des joueurs cherchant un challenge \'enorme, bien qu'il ne faille attendre un certain temps avant le d\'ebut de la partie. Il est possible de gagner du temps en g\'en\'erant au pr\'ealable des mod\`eles de grille et leurs arbres de coups. Au quel cas, si l'utilisateur choisit une grille connue, le processus de cr\'eation n'est plus n\'ecessaire, et le jeu sera en apparence aussi rapide que pour l'IA 0.
 
 
 
 % ------------------------------------------------------------- MODELISATION -------------------------------------------------------------  %
 \part{Mod\'elisation}
 
-Maintenant que nos futures IA sont d\'efinis, voyons comment mod\'eliser les donn\'ees du probl\`emes.
+Maintenant que nos futures IA sont d\'efinies, voyons comment mod\'eliser les donn\'ees du probl\`emes.
 
 \chapter{Environement}
 
-L'environement de jeu consiste en un plateau pr\'esentant une grille. C'est sur cette grille que nos viendrons dessiner nos segment. Le plateau globale est de forme rectangulaire, id\'ealement carr\'e. La grille est d\'ecouper en carr\'e, d\'ecomposer en ligne et somment. Plusieur solutions s'offrent alors \`a nous pour repr\'esenter l'environement. Nous pouvons d\'efinir un graphe contenant chaque sommet et les liasions entre eux, en utilisant une variable sur chaque noeud pour pr\'esenter la pr\'esence ou non d'une liaison, ou nous pouvons repr\'esenter chaque sommet de la grille dans une matrice, et utiliser une liste pour stocker les liaisons connue. \\
+L'environement de jeu consiste en un plateau pr\'esentant une grille. C'est sur cette grille que nos viendrons dessiner nos segment. Le plateau globale est de forme rectangulaire, id\'ealement carr\'e. La grille est d\'ecouper en carr\'e, d\'ecomposer en ligne et somment. Plusieur solutions s'offrent alors \`a nous pour repr\'esenter l'environement. Nous pouvons d\'efinir un graph contenant chaque sommet et les liasions entre eux, en utilisant une variable sur chaque noeud pour pr\'esenter la pr\'esence ou non d'une liaison, ou nous pouvons repr\'esenter chaque sommet de la grille dans une matrice, et utiliser une liste pour stocker les liaisons connue. \\
 
 \section{Tableau}
 
-La repr\'esentation via tableau est la repr\'esentation la plus informatique du probl\`eme, et la plus simple vis \`a vis de la repr\'esentation graphique du probl\`eme. Chaque point de la matrice repr\'esentant un sommet de la grille, il est facile de s\'electionner des sommets puis de les liers dans une liste via un couple.\\
-L'avantage de cette m\'ethode est donc la facilit\'e de gestion de la partie graphique du jeu. Cependant, il est alors compliquer de savoir qu'elle c\^ot\'e sont d\'ej\`a tracer. Il est donc plus long de r\'ecup\'erer les informations quand aux corridors et serpents pr\'esent de le jeu, ainsi que de s'assurer que le coup est autoris\'e.
+La repr\'esentation via tableau est la repr\'esentation la plus informatique du probl\`eme et la plus simple vis \`a vis de la repr\'esentation graphique du probl\`eme. Chaque point de la matrice repr\'esentant un sommet de la grille, il est facile de s\'electionner des sommets puis de les liers dans une liste via un couple.\\
+L'avantage de cette m\'ethode est donc la facilit\'e de gestion de la partie graphique du jeu. Cependant, il est alors compliqu\'e de savoir quels c\^ot\'es sont d\'ej\`a trac\'es. Il est donc plus long de r\'ecup\'erer les informations quand aux corridors et serpents pr\'esent dans le jeu, ainsi que de s'assurer que le coup est autoris\'e.
 
-\section{Graphe}
+\section{Graph}
 
-La repr\'esentation via graphe va permettre de compenser la faiblesse du tableau vis \`a vis des c\^ot\'e. Cependant, elle sera moins efficace d'un point de vue graphique. Le graphe a repr\'esenter doit stocker les informations sur la case. Vis a vis de la grille, une cas est un future carr\'e, donc un point. Un point est ferm\'e d\`es que ces 4 c\^ot\'es sont ferm\'e. Un sommet de notre graphe serait alors un triplet contenant le nom de la case (ex: C5), une liste bool\'een correspondant au c\^ot\'e de la case (vrai si ferm\'e, faux sinon par exemple), et une liste contenant au plus quatre \'el\'ement repr\'esentant les noms des cases adjacentes. \\
-Nous avons alors une structures qui permet de facilement calculer les points de la carte, de visualiser les structures de corridors et serpents et de g\'erer les liaisons entre les cases. Bien que moi efficace sur le plan graphique, elle est beaucoup plus puissantes pour les algorithmes de r\'esolution et plus rapides. 
+La repr\'esentation via graph va permettre de compenser la faiblesse du tableau vis \`a vis des c\^ot\'es. Cependant, elle sera moins efficace d'un point de vue graphique. Le graph a repr\'esenter doit stocker les informations sur la case. Vis \`a vis de la grille, une case est un future carr\'e, donc un point. Un point est ferm\'e d\`es que ces 4 c\^ot\'es sont ferm\'es. Un sommet de notre graph serait alors un triplet contenant le nom de la case (ex: C5), une liste bool\'een correspondant au c\^ot\'e de la case (vrai si ferm\'e, faux sinon par exemple), et une liste contenant au plus quatre \'el\'ement repr\'esentant les noms des cases adjacentes. \\
+Nous avons alors une structure qui permet de facilement calculer les points de la carte, de visualiser les structures de corridors et serpents et de g\'erer les liaisons entre les cases. Bien que moins efficace sur le plan graphique, elle est beaucoup plus puissante pour les algorithmes de r\'esolution et plus rapide. 
 
 \section{Solution choisie}
 
-Nous avons donc choisi la structure de graphe pour mod\'eliser les donn\'ees. L'objectif de notre travail \'etant principalement de cr\'eer des IAs capable de jouer au jeu, et non de permettre a deux joueurs de s'affronter. Nous avons naturellement choisi la solution la plus interressante du point de vue algorithmique. 
+Nous avons donc choisi la structure de graph pour mod\'eliser les donn\'ees. L'objectif de notre travail \'etant principalement de cr\'eer des IAs capable de jouer au jeu, et non de permettre a deux joueurs de s'affronter. Nous avons naturellement choisi la solution la plus interressante du point de vue algorithmique. 
 
 \chapter{Information de jeu}
 
-Une fois la repr\'esentation de l'environement choisi (en l'occurence, un graphe), il nous faut mod\'eliser les coups et options de jeu. Encore une fois, il y a plusieur solutions. Cepenant, ici, les diff\'erentes solutions vont plus s'appliquer au choix d'impl\'ementation d'IA qu'a un besoin. En effet, pour l'IA de niveau 0, il n'y a pas besoin de structure particuli\`ere pour symboliser les coups. Une simple lecture du graphe suffit. Les structures sont a d\'efinir pour l'IA de niveau 1 et 2. 
+Une fois la repr\'esentation de l'environement choisi (en l'occurence, un graph), il nous faut mod\'eliser les coups et options de jeu. Encore une fois, il y a plusieurs solutions. Cependant, ici, les diff\'erentes solutions vont plus s'appliquer au choix d'impl\'ementation d'IA qu'a un besoin. En effet, pour l'IA de niveau 0, il n'y a pas besoin de structure particuli\`ere pour symboliser les coups. Une simple lecture du graph suffit. Les structures sont \`a d\'efinir pour l'IA de niveau 1 et 2. 
 
 \section{IA 1 - Structure}
 
-La premi\`ere IA a besoin d'une connaissance sp\'ecifique a chaque configuration du graphe : la quantit\'e de points gagnable pour chaque serpent. Cette valeur peut s'obtenir en comptant le nombre de carr\'e pr\'esent dans le serpent. Dans un soucis de vitesse, une liste contenant les diff\'erents serpents ainsi que le diff\'erentiel de points joueur/IA peut \^etre int\'eressante a d\'efinir. Au quel cas, apr\`es chaque coups, cette liste est mise \`a jour. Dans cette liste, un serpent est un triplet contenant le nom de la case de d\'epart, et celui de la case de fin, puis le diff\'erentiel de score (ex: le triplet (A0, A3, 4) repr\'esente la ligne allant de la premi\`ere case \`a la troisi\`eme dans la rang\'e A et rapporte 4 points a l'IA quand elle le fermera).
+La premi\`ere IA a besoin d'une connaissance sp\'ecifique a chaque configuration du graph : la quantit\'e de points gagnable pour chaque serpent. Cette valeur peut s'obtenir en comptant le nombre de carr\'e pr\'esent dans le serpent. Dans un soucis de vitesse, une liste contenant les diff\'erents serpents ainsi que le diff\'erentiel de points joueur/IA peut \^etre int\'eressante a d\'efinir. Au quel cas, apr\`es chaque coups, cette liste est mise \`a jour. Dans cette liste, un serpent est un triplet contenant le nom de la case de d\'epart, et celui de la case de fin, puis le diff\'erentiel de score (ex: le triplet (A0, A3, 4) repr\'esente la ligne allant de la premi\`ere case \`a la troisi\`eme dans la rang\'e A et rapporte 4 points a l'IA quand elle le fermera).
 
 \section{IA 2 - Stucture}
 
-La structure a utilis\'e pour l'IA 2 est assez \'evidente, elle fait partie de sa d\'efinition. Il faut d\'efinir un arbre qui va stocker chaque confiuration possible du graphe en fonction du coup pr\'ec\'edent. Nous allon alors avoir un arbre n-aire ayant pour racine la configuration initiale et ou chaque fils est la configuration suivante en fonction du coup jouer. 
+La structure a utilis\'e pour l'IA 2 est assez \'evidente, elle fait partie de sa d\'efinition. Il faut d\'efinir un arbre qui va stocker chaque confiuration possible du graph en fonction du coup pr\'ec\'edent. Nous allons alors avoir un arbre n-aire ayant pour racine la configuration initiale et o\`u chaque fils est la configuration suivante en fonction du coup jouer. 
 
 
 \part{Choix du Langage}
@@ -355,7 +355,7 @@ Pour la simulation, nous utiliserons une grille 2x2 (donc une grille de 4 cases)
 
 Voyons comment les diff\'erentes IAs et la grille vont \^etre initialiser. 
 
-Dans le cas d'une grille 2x2, la grille va \^etre initialis\'e assez rapidement. Elle sera repr\'esenter par un arbre de 4 \'el\'ements, binaire et \'equilibr\'e afin de repr\'esenter le graphe choisi pour la grille (figure:~\autoref{newgrid}, page~\pageref{newgrid}).
+Dans le cas d'une grille 2x2, la grille va \^etre initialis\'e assez rapidement. Elle sera repr\'esenter par un arbre de 4 \'el\'ements, binaire et \'equilibr\'e afin de repr\'esenter le graph choisi pour la grille (figure:~\autoref{newgrid}, page~\pageref{newgrid}).
 
 Du point de vue des IAs, les IAs 0 et 1 n'ont pas besoin de phase d'initialisation autre que leur cr\'eation. Il n'y a pas d'objets particulier \`a mettre en oeuvre, seulement des espaces m\'emoires \`a r\'eserver. 
 
