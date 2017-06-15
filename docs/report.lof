@@ -1,0 +1,13 @@
+\select@language {french}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Forme de la grille 4x4 apr\`es instantiation}}{28}{figure.6.1}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Noeud \`a ajouter dans l'arbre des possible et grille mise \`a jour pour l'appel r\'ecursif}}{29}{figure.6.2}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Etat de la grille apr\`es les 3 coups jouers.}}{30}{figure.6.3}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Etat de la grille apr\`es que l'IA 0 aie jou\'e.}}{30}{figure.6.4}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Etat de la grille apr\`es que l'IA 1 aie jou\'e.}}{31}{figure.6.5}
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Etat de la grille apr\`es que l'IA 2 aie jou\'e.}}{31}{figure.6.6}

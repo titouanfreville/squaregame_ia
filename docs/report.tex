@@ -5,6 +5,7 @@
 \usepackage[francais]{babel}
 \usepackage[]{algpseudocode}
 \usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
 
 % Title Page
 \title{Rapport technique \\Mini Projet : Le jeu du carré, IA joueuses}
@@ -16,6 +17,8 @@
 \maketitle
 % contents
 \tableofcontents
+% captations
+\listoffigures
 
 % R\'esum\'e
 \begin{abstract}
@@ -342,6 +345,86 @@ Parmi les diff\'erents langages de programmation fonctionnelle que nous connaiss
 Nous avons donc choisi le langage sur le quel nous \'etions le plus exp\'eriment\'e, et qui nous semble le plus adapt\'e vis \`a vis de nos donn\'ees.
 
 \part{Simulation de fonctionnement}
+
+Voyons comment vont fonctionner ces IAs avec un exemple simple. 
+
+
+Pour la simulation, nous utiliserons une grille 2x2 (donc une grille de 4 cases). 
+
+\chapter{Initialisation}
+
+Voyons comment les diff\'erentes IAs et la grille vont \^etre initialiser. 
+
+Dans le cas d'une grille 2x2, la grille va \^etre initialis\'e assez rapidement. Elle sera repr\'esenter par un arbre de 4 \'el\'ements, binaire et \'equilibr\'e afin de repr\'esenter le graphe choisi pour la grille (figure:~\autoref{newgrid}, page~\pageref{newgrid}).
+
+Du point de vue des IAs, les IAs 0 et 1 n'ont pas besoin de phase d'initialisation autre que leur cr\'eation. Il n'y a pas d'objets particulier \`a mettre en oeuvre, seulement des espaces m\'emoires \`a r\'eserver. 
+
+Pour la derni\`ere IA, il nous faut initialiser l'arbre des possibles. ce processus est long, et l'arbre obtenue m\^eme pour une grille aussi petite, reste assez imposant, aussi nous ne pr\'esenterons qu'une d\'erivation limit\'e de l'arbre des coups afin d'illuster sont fonctionnement sans avoir \`a pr\'esenter un sh\'ema trop lourd.
+
+Pour initialiser l'arbre des coups, nous allons proc\'eder assez simplement :
+\begin{itemize}
+ \item Nous prenons une case de la grille.
+ \item Nous cr\'eons z\'ero \`a quatre (en fonction du nombre de c\^ot\'e disponnible dans la grille) \og{}copie\fg{} de la grille que nous mettons \`a jour, chacune en fonction du c\^ot\'e du carr\'e ferm\'e. (figure:~\autoref{arbre_possible_updategrid}, page:~\pageref{arbre_possible_updategrid})
+ \item Nous rappelons la fonction sur les grilles obtenue afin de g\'en\'erer le rang suivant. 
+\end{itemize}
+
+\chapter{Tour de jeu}
+
+Projetons nous dans une situation de jeu, en admettant que 3 coups ai \'et\'e jouer et que ce soit au tour de l'IA. La configuration actuelle est r\'epr\'esent\'e dans la figure~:~\autoref{conf_initiale_jeu}, page:~\pageref{conf_initiale_jeu}.
+
+Au quel cas, nous avons deux IA qui sont dans des \'etas sp\'ecifique de m\'emoire. 
+
+L'IA 1, qui voit 2 serpents ($[([(0,a)],1),([(1,a),(1,n),(0,b), 3)]$ et l'IA 2 qui va avoir \'evoluer dans l'arbre des possibles jusqu'a l'\'etat actuelle. 
+
+Dans cette configuration, faisons jouer chaque IA. 
+
+\section{IA0}
+
+Depuis cette configuration, l'IA 0 voit un carr\'e fermable (A0) et le ferme en jouant le coup : (a,0), 3 pour jouer le c\^ot\'e droit du carr\'e. Une fois ce coups ex\'ecuter, elle doit rejouer un coup. Cette fois, aucun carr\'e n'est fermable. Elle va donc tirer un coup au hasard dans la liste des coups possibles. Par exemple: (a,1),2 (pour jouer le c\^ot\'e du dessous du carr\'e a,1).
+
+Ce qui nous am\`ene \`a la configuration repr\'esent\'e dans~:~\autoref{ia0plays}, page~:~\pageref{ia0plays}
+
+\section{IA1}
+
+L'IA 1 a pour but de marquer plus de points que son adversaire \`a chaque tour. Ici, elle voit les deux serpents $[([(0,a)],1),([(1,a),(1,n),(0,b), 3)]$. Pour marquer plus de points que son adversaire, elle doit donc essayer de fermer le deuxi\`eme serpent, valant 3 points. Ce serpents n'est pas fermable pour ce tour. Elle va donc regarder si le suivant est fermable. Le serpent 1 est fermable. Elle va alors regarder si, en fermant ce serpent et en jouant le tour suivant, elle permet \`a son adversaire de fermer le serpent 2. Ici, l'adversaire ne pourras pas fermer le serpent 2 apr\`es le tour de l'IA. Par cons\'equent, elle va fermer le carr\'e en jouant le coup (a,0),3 puis jouer un coup pour d\'eterminiser le serpent. Par exemple: (b,1), 3.
+
+Ce qui nous am\`ene \`a la configuration repr\'esent\'e dans~:~\autoref{ia1plays}, page~:~\pageref{ia1plays}
+
+\section{IA2}
+
+L'IA 2 va quand \`a elle regarder les fils directe de la configuration actuelle et chercher celui qui l'am\`ene au plus de condition de victoire. Ici, ferm\'e le carr\'e elle m\^eme l'am\`ene a une situation ou, sans erreur du joueur adverse, elle est s\^ure de perdre. Par cons\'equent, elle ne va pas fermer ce carr\'e, mais plutot le laisser \`a l'adversaire, et joueur un coup quelconque lui permettant de s'assurer une victoire future. Par exemple: (1,b), 2.
+
+Ce qui nous am\`ene \`a la configuration repr\'esent\'e dans~:~\autoref{ia2plays}, page~:~\pageref{ia2plays}
+% ---------------- Captations ----------------- %
+\begin{figure}[p]
+	\includegraphics[width=15cm]{images/grid.png}
+	\caption{\label{newgrid}Forme de la grille 4x4 apr\`es instantiation}
+\end{figure}
+
+\begin{figure}[p]
+	\includegraphics[width=15cm]{images/move_tree_updategrid.png}
+	\caption{\label{arbre_possible_updategrid}Noeud \`a ajouter dans l'arbre des possible et grille mise \`a jour pour l'appel r\'ecursif}
+\end{figure}
+
+\begin{figure}[p]
+	\includegraphics[width=15cm]{images/initialstateplay.png}
+	\caption{\label{conf_initiale_jeu}Etat de la grille apr\`es les 3 coups jouers.}
+\end{figure}
+
+\begin{figure}[p]
+	\includegraphics[width=15cm]{images/grid_state_play_ia0.png}
+	\caption{\label{ia0plays}Etat de la grille apr\`es que l'IA 0 aie jou\'e.}
+\end{figure}
+
+\begin{figure}[p]
+	\includegraphics[width=15cm]{images/grid_state_play_ia1.png}
+	\caption{\label{ia1plays}Etat de la grille apr\`es que l'IA 1 aie jou\'e.}
+\end{figure}
+
+\begin{figure}[p]
+	\includegraphics[width=15cm]{images/grid_state_play_ia2.png}
+	\caption{\label{ia2plays}Etat de la grille apr\`es que l'IA 2 aie jou\'e.}
+\end{figure}
 
 
 \end{document}
