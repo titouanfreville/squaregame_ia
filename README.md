@@ -10,7 +10,7 @@ This project aims to implement a playing interface for the square game. It is a 
 
 Download the binary corresponding to your system:
 
-- Linux, Ubuntu architecture: [download Linux 64bits executable]()
+- Linux, Ubuntu architecture: [download Linux 64bits executable](https://github.com/titouanfreville/squaregame_ia/raw/dev/src/square-game)
 - MacOS: [download mac 64bits executable]()
 - Windows: [download windows 64bits executable]()
 
