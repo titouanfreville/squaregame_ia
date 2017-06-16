@@ -1,4 +1,4 @@
-#use "../graphic/grid.ml";;
+open Grid;;
 
 type 'a moveTree = E | L of 'a | N of 'a * ('a moveTree) list;;
 

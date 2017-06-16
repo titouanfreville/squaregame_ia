@@ -1,12 +1,13 @@
 type gridNode = (int * char) * bool list * (int * char) list;;
 type 'a grid = EmptyGrid | GridNode of 'a grid * 'a * 'a grid;;
-
 (*
 	@newEmptyGrid
 	Function to init new grid
 	@renturn empty grid
 *)
 let newEmptyGrid () = EmptyGrid;;
+
+let coi i m = Char.chr (i+97+m)
 
 (*
     @getHeight
@@ -184,20 +185,20 @@ let rec initGridRec i j mi mj =
 	match (i,j) with
 	| (0, 0) -> GridNode(EmptyGrid, ((0, 'a'), [false; false; false; false], [(-99,' ');(0, 'b');(1, 'a');(-99,' ')]), EmptyGrid)
 	| (0, n) -> if n = mj
-		then add ((0, Char.chr (n+97)), [false; false; false; false], [(-99,' ');(-99,' ');(1, Char.chr (n+97));(0,Char.chr (n+96))]) (initGridRec 0 (n-1) mi mj)
-		else add ((0, Char.chr (n+97)), [false; false; false; false], [(-99,' ');(0, Char.chr (n+98)); (1, Char.chr (n+97)); (0, Char.chr (n+96))]) (initGridRec 0 (n-1) mi mj)
+		then add ((0, coi n 0), [false; false; false; false], [(-99,' ');(-99,' ');(1, coi n 0);(0,coi n (-1))]) (initGridRec 0 (n-1) mi mj)
+		else add ((0, coi n 0), [false; false; false; false], [(-99,' ');(0, coi n 1); (1, coi n 0); (0, coi n (-1))]) (initGridRec 0 (n-1) mi mj)
 	| (n, 0) -> if n = mi
 		then add ((n, 'a'), [false; false; false; false], [(n-1, 'a'); (n, 'b'); (-99,' '); (-99,' ')]) (initGridRec (n-1) mj mi mj)
 		else add ((n, 'a'), [false; false; false; false], [(n-1, 'a'); (n, 'b'); (n+1, 'a');(-99,' ')]) (initGridRec (n-1) mj mi mj)
 	| (i,j) ->
 	if j = mj
 		then if i = mi
-			then add ((i, Char.chr (j+97)), [false; false; false; false], [(i-1, Char.chr (j+97));(-99,' ');(-99,' ');(i, Char.chr (j+96))]) (initGridRec i (j-1) mi mj)
-		else  add ((i, Char.chr (j+97)), [false; false; false; false], [(i-1, Char.chr (j+97));(-99,' ');(i+1, Char.chr (j+97));(i, Char.chr (j+96))]) (initGridRec i (j-1) mi mj)
+			then add ((i, coi j 0), [false; false; false; false], [(i-1, coi j 0);(-99,' ');(-99,' ');(i, coi j (-1))]) (initGridRec i (j-1) mi mj)
+		else  add ((i, coi j 0), [false; false; false; false], [(i-1, coi j 0);(-99,' ');(i+1, coi j 0);(i, coi j (-1))]) (initGridRec i (j-1) mi mj)
 	else
 		if i = mi
-			then add ((i, Char.chr (j+97)), [false; false; false; false], [(i-1, Char.chr (j+97)); (i, Char.chr (j+98)); (-99,' '); (i, Char.chr (j+96))]) (initGridRec i (j-1) mi mj)
-		else add ((i, Char.chr (j+97)), [false; false; false; false], [(i-1, Char.chr (j+97));(i, Char.chr (j+98));(i+1, Char.chr (j+97)); (i, Char.chr (j+96))]) (initGridRec i (j-1) mi mj);;
+			then add ((i, coi j 0), [false; false; false; false], [(i-1, coi j 0); (i, coi j 1); (-99,' '); (i, coi j (-1))]) (initGridRec i (j-1) mi mj)
+		else add ((i, coi j 0), [false; false; false; false], [(i-1, coi j 0);(i, coi j 1);(i+1, coi j 0); (i, coi j (-1))]) (initGridRec i (j-1) mi mj);;
 
 (*
  	@initGrid
@@ -208,7 +209,7 @@ let rec initGridRec i j mi mj =
 let rec initGrid i j = let i = i - 1 and j = j - 1 in initGridRec j i j i;;
 
 (* Loading graphics library to used in REPL *)
-#load "graphics.cma";;
+(*#load "graphics.cma";;*)
 (* Opening graphics module to avoid having to call Graphics.method*)
 open Graphics;;
 
@@ -219,9 +220,9 @@ open Graphics;;
     @param h string heigth of the window in pixels
     @ensures a new graphic window is open
 *)
-let openGraph w h = let st = " " ^ w ^ "x" ^ h in open_graph st;;
+let openGraph w h = let st = " " ^ w ^ "x" ^ h in open_graph st; set_window_title "Square Game";;
 
-let resetGraph = clear_graph;;
+let resetGraph () = clear_graph ();;
 
 (*
     @treeDrawing
@@ -250,9 +251,9 @@ let rec treeDrawing t x y h w printer textColor lineColor=
                   end
   | _ -> moveto (x + drawingZoneWidth) y; set_color textColor; draw_string "X"; set_color black;;
 
-let magicDrawing t printer =
+let magicDrawing t printer stepHight drawingZoneWidth =
 resetGraph();
-treeDrawing t 0 0 200 1000 printer red blue;;
+treeDrawing t 0 0 stepHight drawingZoneWidth printer red blue;;
 
 let soi i = string_of_int i;;
 
@@ -273,15 +274,3 @@ let printNode node =
 	draw_string "( ";
 	drawInt i; draw_string ", "; draw_char j; draw_string " ), (";
 	drawBoolList lbool; draw_string " ), "; drawNodeList lnode;;
-
-openGraph "1000" "500";;
-
-let grid = initGrid 2 2;;
-
-let grid = addPlay grid 0 'a' 2;;
-let grid = addPlay grid 0 'a' 1;;
-let grid = addPlay grid 0 'a' 0;;
-let grid = addPlay grid 1 'b' 2;;
-
-
-magicDrawing grid printNode;;
