@@ -14,7 +14,8 @@ val initGridRec : int -> int -> int -> int -> gridNode grid
 val initGrid : int -> int -> gridNode grid
 val searchNode : gridNode grid -> int -> char -> gridNode
 val updateNode : gridNode grid -> int -> char -> gridNode -> gridNode grid
-val addPlay : gridNode grid -> int -> char -> int -> gridNode grid * bool
+val addPlay : gridNode grid -> int -> char -> int -> gridNode grid * bool * bool
+val allClosed : gridNode grid -> bool
 (* List general functions *)
 val getNthElement : 'a list -> int -> 'a
 val updateNthElement : 'a list -> int -> 'a -> 'a list
