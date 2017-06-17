@@ -7,7 +7,7 @@ let rec randomMoveRec l n il =
   | (_::q, n) -> randomMoveRec q (n-1) il
 
 let randomMove l =
-  let o = Random.int(List.length(l)) in
+  let o = Random.int((List.length(l)+30)*Random.int(10)+Random.int(50)) in
   randomMoveRec l o l
 
 let rec isClosableRec lbool c side = 
