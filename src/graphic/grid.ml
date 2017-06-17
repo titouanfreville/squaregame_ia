@@ -154,23 +154,36 @@ let rec updateNthElement l n e =
 	| ((t::q),0) -> e::q
 	| (t::q, _) -> t::updateNthElement q (n-1) e;;
 
+let rec isClosedCase lbool = 
+    match lbool with
+    | [] -> true
+    | t::q -> t && isClosedCase q
 
 let rec addPlay grid i j side =
 	let ((_,_), lbool, lnode) = searchNode grid i j in
-	let (ni,nj) = getNthElement lnode side and played = getNthElement lbool side in
-	if played
-	then
-		grid
-	else
-		let newLBoll = updateNthElement lbool side true in
-		let newGrid = updateNode grid i j ((i,j), newLBoll, lnode) in
-		if ni = -99
-		then
-			newGrid
-		else
-			addPlay newGrid ni nj ((side+2) mod 4)
-			;;
+	try 
+        let (ni,nj) = getNthElement lnode side and played = getNthElement lbool side in
+        if played
+        then 
+            (grid, false, false)
+        else
+            let newLBool = updateNthElement lbool side true in
+            let newGrid = updateNode grid i j ((i,j), newLBool, lnode) in
+            let closed = isClosedCase newLBool in 
+            if ni = -99
+            then
+                (newGrid, true, closed)
+            else
+                let (g, _, nclosed) = addPlay newGrid ni nj ((side+2) mod 4) in
+                let closed = nclosed || closed in
+                (g, true, closed)
+    with
+        NotEnougthElementInList -> (EmptyGrid, false, false)
 
+let rec allClosed grid =
+    match grid with
+    | EmptyGrid -> true
+    | GridNode(ng, (_,lbool,_), nd) -> isClosedCase lbool && allClosed ng && allClosed nd 
 
 (*
    @initGridRec
