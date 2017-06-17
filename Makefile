@@ -5,7 +5,7 @@ GRAPHICS=src/graphic
 IA=src/ia
 OS=linux
 # Module to link in compilation. Order is important
-SRC_LIST=graphics.cma $(GRAPHICS)/grid.ml src/main.ml
+SRC_LIST=graphics.cma $(GRAPHICS)/grid.ml $(IA)/base.ml src/main.ml
 # commands
 default: all
 
@@ -25,8 +25,11 @@ graphic:
 	$(OC) -c $(GRAPHICS)/grid.ml
 	cp $(GRAPHICS)/*.cm* .
 
-ia:
-	echo "waiting IA implementation"
+ia: graphic
+	$(OC) -c $(IA)/base.mli
+	cp $(IA)/*.cm* .
+	$(OC) -c $(IA)/base.ml
+	cp $(IA)/*.cm* .
 
 clean:
 	rm -rf $(GRAPHICS)/*.cm* src/*.cm* 
