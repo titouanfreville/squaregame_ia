@@ -157,20 +157,22 @@ let rec updateNthElement l n e =
 
 let rec addPlay grid i j side =
 	let ((_,_), lbool, lnode) = searchNode grid i j in
-	let (ni,nj) = getNthElement lnode side and played = getNthElement lbool side in
-	if played
-	then
-		grid
-	else
-		let newLBoll = updateNthElement lbool side true in
-		let newGrid = updateNode grid i j ((i,j), newLBoll, lnode) in
-		if ni = -99
-		then
-			newGrid
-		else
-			addPlay newGrid ni nj ((side+2) mod 4)
-			;;
-
+	try 
+        let (ni,nj) = getNthElement lnode side and played = getNthElement lbool side in
+        if played
+        then 
+            (grid, false)
+        else
+            let newLBoll = updateNthElement lbool side true in
+            let newGrid = updateNode grid i j ((i,j), newLBoll, lnode) in
+            if ni = -99
+            then
+                (newGrid, true)
+            else
+                let (g, _) = addPlay newGrid ni nj ((side+2) mod 4) in
+                (g, true)
+    with
+        NotEnougthElementInList -> (EmptyGrid, false)
 
 (*
    @initGridRec

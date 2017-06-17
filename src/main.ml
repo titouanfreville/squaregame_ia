@@ -5,6 +5,10 @@ let readChar () =
   let r = read_line () in
   r.[0]
 
+let getVal valName valType getter= 
+  print_string ("Enter "^valName^": "^valType^" <- ");
+  getter ()
+
 let printCurrentGrid grid =
   Grid.magicDrawing grid Grid.printNode 200 1000
 
@@ -20,12 +24,19 @@ let playIa2 = playNoob;;
 
 let rec move grid =
   print_string ("Enter your move (x: int, y: char, side: int): \n");
-  let i = read_int () and j = readChar () and side = read_int () in
-  Grid.addPlay grid i j side
+  let i = getVal "x" "int" read_int and j = getVal "y" "char" readChar and side = getVal "side" "int in [0,1,2,3]" read_int in
+  let (g, b) = Grid.addPlay grid i j side in
+  if b 
+  then g
+  else 
+    begin
+      print_string ("The move you enter can't be proced. Ever it was already play, ever it is outside the grid. Please try again !\n");
+      move grid
+    end
 
 let reset () =
   print_string ("Enter the size of the grid you wish (x:int, y:int):\n");
-  let x = read_int () and y = read_int () in
+  let x = getVal "x" "int" read_int and y = getVal "y" "int" read_int in
   let grid = initGrid x y in 
   Grid.resetGraph();
   printCurrentGrid grid;
@@ -42,7 +53,7 @@ let endGame () =
   @return (gridNode grid) new grid according to user play or choice
 *)
 let rec waitPlayer name grid = 
-  print_string ("Playing: "^name);
+  print_string ("Playing: "^name^"\n");
   print_string ("What do you want to do ?\nPlay a Move (play)\nReset the game (reset)\nLeave the game (leave):\n");
   let userinput = read_line() in
   match userinput with 
@@ -81,9 +92,12 @@ let rec game grid p1 p2 t1 t2 =
 (* Main block *)
 let main () =
   Grid.openGraph "1900" "800";
-  let n1 = "me" and n2 = "maya" in
+  let n1 = getVal "player 1" "string" read_line
+  and t1 = getVal "type of Player 1" "string in [h,0,1,2]" read_line
+  and n2 = getVal "player 2" "string" read_line 
+  and t2 = getVal "type of Player 2" "string in [h,0,1,2]" read_line in
   let grid = reset () in
-  game grid n1 n2 "h" "0";;
+  game grid n1 n2 t1 t2;;
 
 (* Running main *)
 main ()
