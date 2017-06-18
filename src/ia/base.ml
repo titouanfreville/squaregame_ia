@@ -1,4 +1,4 @@
-open Grid;;
+open Grid
 
 let rec randomMoveRec l n il = 
   match (l,n) with
