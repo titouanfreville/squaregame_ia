@@ -159,13 +159,19 @@ let rec isClosedCase lbool =
     | [] -> true
     | t::q -> t && isClosedCase q
 
+let print_bool b = print_string (string_of_bool b)
+
+let rec printLboolDebug lbool =
+  match lbool with
+  | [] -> print_string " X\n"
+  | t::q -> print_bool t; print_string " -> "; printLboolDebug q
+
 let rec addPlay grid i j side =
 	let ((_,_), lbool, lnode) = searchNode grid i j in
 	try 
         let (ni,nj) = getNthElement lnode side and played = getNthElement lbool side in
         if played
-        then 
-            (grid, false, false)
+        then (grid, false, false)
         else
             let newLBool = updateNthElement lbool side true in
             let newGrid = updateNode grid i j ((i,j), newLBool, lnode) in
