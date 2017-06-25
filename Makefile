@@ -5,7 +5,7 @@ GRAPHICS=src/graphic
 IA=src/ia
 OS=linux
 # Module to link in compilation. Order is important
-SRC_LIST=graphics.cma $(GRAPHICS)/grid.ml $(IA)/base.ml src/main.ml
+SRC_LIST=graphics.cma $(GRAPHICS)/grid.ml $(IA)/base.ml $(IA)/ia1.ml src/main.ml
 # commands
 default: all install run_installed
 
@@ -26,11 +26,15 @@ graphic:
 	@cp $(GRAPHICS)/*.cm* .
 
 ia: graphic
-	@$(OC) -c $(IA)/base.mli
+	@$(OC) -c $(IA)/ia1.mli
 	@cp $(IA)/*.cm* .
-	@$(OC) -c $(IA)/base.ml
+	@$(OC) -c $(IA)/ia1.ml
 	@cp $(IA)/*.cm* .
-
+	@$(OC) -c $(IA)/ia1.mli
+	@cp $(IA)/*.cm* .
+	@$(OC) -c $(IA)/ia1.ml
+	@cp $(IA)/*.cm* .
+	
 clean:
 	@rm -rf src/*.cm*
 
