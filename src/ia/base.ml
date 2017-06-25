@@ -1,4 +1,4 @@
-open Grid;;
+open Grid
 
 let rec randomMoveRec l n il = 
   match (l,n) with
@@ -35,13 +35,6 @@ let rec getUnclosedSides l pos s =
   match l with
   | [] -> []
   | t::q -> if t then getUnclosedSides q pos (s+1) else (pos,s)::getUnclosedSides q pos (s+1)
-
-let print_bool b = print_string (string_of_bool b)
-
-let rec printLboolDebug lbool =
-  match lbool with
-  | [] -> print_string " X\n"
-  | t::q -> print_bool t; print_string " -> "; printLboolDebug q
 
 let rec play0 grid randomMoveList = 
   match grid with
