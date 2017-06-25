@@ -27,3 +27,7 @@ val isClosableSnake: (int * char) list -> Grid.gridNode Grid.grid -> bool -> boo
 
 val play1: Grid.gridNode Grid.grid -> ((int * char) list * int) list -> int ->
            Grid.gridNode Grid.grid * ((int * char) list * int) list * int
+
+val quickSort: 'a list -> ('a -> 'a -> bool) -> 'a list
+
+val snakeSort: 'a * 'b -> 'a * 'b -> bool

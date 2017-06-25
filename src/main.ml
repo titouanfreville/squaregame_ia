@@ -124,6 +124,7 @@ let rec game grid p1 p2 t1 t2 s1 s2 snakeList =
     if allClosed grid
     then (printResult p1 p2 s1 s2; exit 0;);
     let (ngrid, ns1, nsl1) = player p1 t1 s1 grid snakeList in
+    let nsl1 = quickSort nsl1 snakeSort in 
     if ns1 = -2
     then game ngrid p1 p2 t1 t2 0 0 []
     else
@@ -133,6 +134,7 @@ let rec game grid p1 p2 t1 t2 s1 s2 snakeList =
       if allClosed ngrid
       then (printResult p1 p2 ns1 s2; exit 0;);
       let (ngrid, ns2, nsl2) = player p2 t2 s2 ngrid nsl1 in
+      let nsl2 = quickSort nsl2 snakeSort in 
       if ns2 = -2
       then game ngrid p1 p2 t1 t2 0 0 []
       else
