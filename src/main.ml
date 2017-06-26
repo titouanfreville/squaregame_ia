@@ -175,8 +175,13 @@ let main () =
   and n2 = getVal "player 2" "string" read_line 
   and t2 = getVal "type of Player 2" "string in [h,0,1,2]" read_line  in
   print_string (t1^" "^t2^"\n");
-  if (t1=="2" || t2 =="2")
-  then let tree = initIA2 grid in game grid n1 n2 t1 t2 0 0 [] tree
+  if ((int_of_string t1)==2 || (int_of_string t2) == 2)
+  then 
+    begin
+      print_string "Init Tree\n";
+      let tree = initIA2 grid in 
+      game grid n1 n2 t1 t2 0 0 [] tree
+  end
   else game grid n1 n2 t1 t2 0 0 [] E;;
 
 (* Running main *)
