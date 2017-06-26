@@ -85,17 +85,21 @@ let rec createMove lbool i j s grid tree player moveRank branchScore =
 		else createMove q i j (s+1) grid tree player moveRank branchScore
 
 let rec initTreeMove grid tree moveRank player branchScore = 
-	match grid with
-	| EmptyGrid -> tree
-	| GridNode(rg, ((i,j),lbool,_), lg) -> 
-		let (ng, nt, np, ns) = createMove lbool i j 0 grid tree player moveRank branchScore in
-		let nt = initTreeMove ng nt (moveRank+1) (player*(-1)) ns in 
-		let nt = initTreeMove rg nt moveRank player branchScore in 
-		initTreeMove lg nt moveRank player branchScore
+	if allClosed grid 
+	then tree
+	else
+		match grid with
+		| EmptyGrid -> tree
+		| GridNode(rg, ((i,j),lbool,_), lg) -> 
+			let (ng, nt, np, ns) = createMove lbool i j 0 grid tree player moveRank branchScore in
+			let nt = initTreeMove ng nt (moveRank+1) (player*(-1)) ns in 
+			let nt = initTreeMove rg nt moveRank player branchScore in 
+			initTreeMove lg nt moveRank player branchScore
 
 let initIA2 grid = initTreeMove grid E 0 1 0
 
-let playIA2 tree player = let nt = getMoveToPlay tree (player == 1) in 
+let play2 tree player = let nt = getMoveToPlay tree (player == 1) in 
 	match nt with 
-	| E | L (_) -> ((-99,' ', -1), E)
-	| N((m, _)) -> (m, nt)   
+	| E -> ((-99, ' ', -1), E)
+	| L (m,_) -> (m, E)
+	| N(((m,_), _)) -> (m, nt)   

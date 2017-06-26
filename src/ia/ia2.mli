@@ -6,5 +6,5 @@ val manageMove: ('a*int) moveTree list -> 'a -> int -> int -> int -> ('a*int) mo
 val getMoveToPlay: 'a moveTree -> bool -> 'a moveTree
 val processMove: ('a*int) moveTree -> 'a -> ('a*int) moveTree 
 val initIA2: Grid.gridNode Grid.grid -> ((int * char * int) * int) moveTree
-val playIA2: (int * char * int) moveTree ->
-           int -> (int * char * int) * (int * char * int) moveTree
+val play2: ((int * char * int) * 'a) moveTree ->
+           int -> (int * char * int) * ((int * char * int) * 'a) moveTree
