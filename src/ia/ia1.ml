@@ -48,8 +48,7 @@ let snakeSort a b =
 *)
 let rec quickSort l c= 
   match l with 
-  | [] -> []
-  | t::[] -> t
+  | [] | _::[] -> l
   | _ -> let (l1, l2) = split l in merge (quickSort l1 c) (quickSort l2 c) c
 
 (*

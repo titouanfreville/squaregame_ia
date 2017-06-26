@@ -1,6 +1,7 @@
 open Grid;;
 open Base;;
 open Ia1;;
+open Ia2;;
 (* Usefull functions (conversion, reading, printing ...) *)
 let readChar () = 
   let r = read_line () in
@@ -124,6 +125,7 @@ let rec game grid p1 p2 t1 t2 s1 s2 snakeList =
     if allClosed grid
     then (printResult p1 p2 s1 s2; exit 0;);
     let (ngrid, ns1, nsl1) = player p1 t1 s1 grid snakeList in
+    let nsl1 = quickSort nsl1 snakeSort in 
     if ns1 = -2
     then game ngrid p1 p2 t1 t2 0 0 []
     else
@@ -133,6 +135,7 @@ let rec game grid p1 p2 t1 t2 s1 s2 snakeList =
       if allClosed ngrid
       then (printResult p1 p2 ns1 s2; exit 0;);
       let (ngrid, ns2, nsl2) = player p2 t2 s2 ngrid nsl1 in
+      let nsl2 = quickSort nsl2 snakeSort in 
       if ns2 = -2
       then game ngrid p1 p2 t1 t2 0 0 []
       else
@@ -144,14 +147,14 @@ let rec game grid p1 p2 t1 t2 s1 s2 snakeList =
 let main () =
   openGraph "1900" "800";
   Random.self_init ();
-
   let (grid, s, sl) = reset ()
   and n1 = getVal "player 1" "string" read_line
   and t1 = getVal "type of Player 1" "string in [h,0,1,2]" read_line
   and n2 = getVal "player 2" "string" read_line 
   and t2 = getVal "type of Player 2" "string in [h,0,1,2]" read_line  in
-
-  game grid n1 n2 t1 t2 0 0 [];;
+  if (t1==2 || t2 ==2)
+  then let tree = initIA2 grid in game grid n1 n2 t1 t2 0 0 []
+  else game grid n1 n2 t1 t2 0 0 [];;
 
 (* Running main *)
 main ()
